@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.logui.models.UserList;
 
 @Controller
@@ -120,6 +121,7 @@ public class EditUserController {
 			sid = ulist.getSid();
 		}
 		
+		Gson gson =new Gson();
 		
 		String url = "http://54.153.82.170:4000/atest/api/logging_user/";
 		URL obj = new URL(url);
@@ -164,7 +166,8 @@ public class EditUserController {
 			response.append(inputLine);
 		}
 		in.close();
-
+		
+		
 		//print result
 		System.out.println(response.toString());
 		return response.toString();

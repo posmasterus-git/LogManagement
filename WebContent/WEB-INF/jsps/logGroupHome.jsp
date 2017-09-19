@@ -176,7 +176,7 @@
 								                                    	<c:if test="${not empty logrouplist}">
 			          														<c:forEach var="logrouplist" items="${logrouplist}">
 										                                        <tr>
-										                                            <td><c:out value="${logrouplist.name}"></c:out></td>
+										                                            <td><a href="logsView.html?id=${logrouplist.id}"><c:out value="${logrouplist.name}"></c:out></a></td>
 										                                            <td>
 										                                            <button type="button" class="btn btn-warning btn-circle waves-effect waves-circle waves-float" onclick="location.href='editLogGroup.html?id=${logrouplist.id}'">
 									                                    			<i style="height:20px" class="material-icons">mode_edit</i>

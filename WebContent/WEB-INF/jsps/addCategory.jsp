@@ -144,10 +144,10 @@
                             
                         </div>
                         <div class="body">
-                            <form id="form_advanced_validation" method="POST" >
+                            <form id="form_advanced_validation" method="POST" action="/LogManagement/categoryView.html">
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control"  maxlength="10" minlength="3" required/>
+                                        <input type="text" name="name" class="form-control"  minlength="3" required/>
                                         <label class="form-label">Category</label>
                                     </div>
                                     <div class="help-info"></div>
@@ -155,8 +155,21 @@
                                
                                 <div class="form-group form-float">
                                     <div class="form-line">
+                                        <input type="text" name="subcode" class="form-control" required/>
+                                        <label class="form-label">SUB Code</label>
+                                    </div>
+                                   </div> 
+                                  
+                                     <div class="form-group form-float">
+                                    <div class="form-line">
+                                         <textarea rows="4" name="description" class="form-control no-resize" ></textarea>
+                                        <label class="form-label">Description</label>
+                                    </div>
+                                    </div>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
                                     
-                                            <input type="checkbox" class="filled-in" id="ig_checkbox"  />
+                                            <input type="checkbox" name="active" class="filled-in" id="ig_checkbox" />
                                             <label for="ig_checkbox">Active</label>
                                        
                                     </div>

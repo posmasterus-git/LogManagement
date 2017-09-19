@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
  <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+  <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
 	<head>
 		<meta charset="utf-8">
@@ -144,38 +145,38 @@
                 <br>
                 <br>
                 <div class="row clearfix">
-                                <div class="col-sm-2">
-                                    <select class="form-control show-tick" name="Logtype" multiple>
-                                        <option value="">-- LOGTYPE --</option>
-                                        <option value="10">10</option>
-                                        <option value="20">20</option>
-                                        <option value="30">30</option>
-                                        <option value="40">40</option>
-                                        <option value="50">50</option>
+                <form:form method="POST" action="/LogManagement/logsView.html">
+                                
+                               <c:if test="${not empty logtype && not empty category && not empty module}">
+                               <div class="col-sm-2">
+                             LOGTYPE: <select class="form-control show-tick" name="logtypeselect" multiple>
+                                     
+		          						<c:forEach var="logtype" items="${logtype}">
+                                        <option value="<c:out value="${logtype}"></c:out>"  <c:if test="${paramValues.path == logtype}"> selected="selected"</c:if>><c:out value="${logtype}"></c:out></option>
+                                       </c:forEach>
+                                   
+                                    </select>
+                                    
+                                </div>
+                                 <div class="col-sm-2">
+                                   CATEGORY: <select class="form-control show-tick" name="category" multiple>
+                                       
+                                       <c:forEach var="category" items="${category}">
+                                        <option value="<c:out value="${category}"></c:out>"><c:out value="${category}"></c:out></option>
+                                        </c:forEach>
                                     </select>
                                 </div>
                                  <div class="col-sm-2">
-                                    <select class="form-control show-tick" name="category" multiple>
-                                        <option value="">-- CATEGORY --</option>
-                                        <option value="10">10</option>
-                                        <option value="20">20</option>
-                                        <option value="30">30</option>
-                                        <option value="40">40</option>
-                                        <option value="50">50</option>
+                                  MODULE:  <select class="form-control show-tick" name="module" multiple>
+                                       <c:forEach var="module" items="${module}">
+                                        <option value="<c:out value="${module}"></c:out>"><c:out value="${module}"></c:out></option>
+                                        </c:forEach>
                                     </select>
                                 </div>
-                                 <div class="col-sm-2">
-                                    <select class="form-control show-tick" name="module" multiple>
-                                        <option value="">-- MODULE --</option>
-                                        <option value="10">10</option>
-                                        <option value="20">20</option>
-                                        <option value="30">30</option>
-                                        <option value="40">40</option>
-                                        <option value="50">50</option>
-                                    </select>
-                                </div>
-                              <button type="button" class="btn bg-red waves-effect" onclick="location.href='addUser.html'">Search</button>
+                              <br><button type="button" class="btn bg-red waves-effect" onclick="location.href='logViewSelect.html?logtype=${logtype},category=${category},module=${module}'">Search</button>
                               <button type="button" class="btn bg-red waves-effect" onclick="location.href='logGroupHome.html'">Log Group Page</button>
+                              </c:if>
+                              </form:form>
                             </div>
             </div>
 			<div class="row clearfix">
@@ -193,22 +194,22 @@
                                             <th>Test Code</th>
                                             <th>Message</th>
                                             <th>Filename</th>
-                                            <th>Action</th>
+                                            <th>Location</th>
+                                            <th>Line</th>
                                             
                                         </tr>
                                     </thead>
                                     
                                     <tbody>
-                                    <c:if test="${not empty userlist}">
-		          						<c:forEach var="userlist" items="${userlist}">
+                                    <c:if test="${not empty logslist}">
+		          						<c:forEach var="logslist" items="${logslist}">
 	                                        <tr>
-	                                            <td><c:out value="${userlist.id}"></c:out></td>
-	                                            <td><c:out value="${userlist.firstName}"></c:out></td>
-	                                           <td></td>
-	                                           <td></td>
-	                                            <td>
-	                                            <input type="checkbox" class="filled-in" checked />                            
-	                                            </td>
+	                                            <td><c:out value="${logslist.functionId}"></c:out></td>
+	                                            <td><c:out value="${logslist.testCode}"></c:out></td>
+	                                           <td><c:out value="${logslist.message}"></c:out></td>
+	                                           <td><c:out value="${logslist.filename}"></c:out></td>
+	                                            <td><c:out value="${logslist.location}"></c:out></td>
+	                                            <td><c:out value="${logslist.line}"></c:out></td>
 	                                            
 	                                           
 	                                        </tr>
