@@ -115,7 +115,9 @@
                        
                     </li>
                  
-                      <li class="active"></li>
+                    <li class="active">
+                       
+                    </li>
                     
                        
                 </ul>
@@ -135,63 +137,61 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
-                            <h2>EDIT USER</h2>
+                            <h2>EDIT LOG GROUP</h2>
                             
                         </div>
                         <div class="body">
-                            <form:form id="form_editUser" method="PUT" action="/LogManagement/editUser.html">
+                            <form:form id="form_addLogGroup" method="POST" action="/LogManagement/editLogGroup.html">
                             <c:if test="${not empty userlist}">
-		          						<c:forEach var="userlist" items="${userlist}">
+			          			<c:forEach var="logrouplist" items="${userlist}">
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" name="userid" class="form-control" value="<c:out value="${userlist.id}"></c:out>" required/>
-                                        <label class="form-label">User ID</label>
+                                        <input type="text" class="form-control" name="logroupid" value="<c:out value="${logrouplist.id}"></c:out>" required/>
+                                        <label class="form-label">LogGroup ID</label>
                                     </div>
-                                    <div class="help-info">Used for Log-in</div>
+                                    <div class="help-info">Group ID to identify log group</div>
                                 </div>
-                                
-                                <div class="form-group form-float">
+                               
+                               <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" name="firstname" class="form-control" value="${userlist.firstName}" required/>
-                                        <label class="form-label">First Name</label>
+                                        <input type="text" name="name" class="form-control" value="<c:out value="${logrouplist.name}"></c:out>"/>
+                                        <label class="form-label">Name</label>
                                     </div>
                                    </div> 
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" name="lastname" class="form-control" value="${userlist.lastName}" required />
-                                        <label class="form-label">Last Name</label>
+                                         <textarea rows="4" name="description" class="form-control no-resize"><c:out value="${logrouplist.description}"></c:out></textarea>
+                                        <label class="form-label">Description</label>
                                     </div>
                                     </div>
+                               
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                    <c:if test="${userlist.isActive eq 1 }">
+                                    <c:if test="${logrouplist.isActive eq 1 }">
                                             <input type="checkbox" name="active" class="filled-in" id="ig_checkbox" checked/>
                                             </c:if>
                                             
-                                            <c:if test="${userlist.isActive eq 0 }">
+                                            <c:if test="${logrouplist.isActive eq 0 }">
                                             <input type="checkbox" name="active" class="filled-in" id="ig_checkbox"/>
                                             </c:if>
                                             <label for="ig_checkbox">Active</label>
-                                       
                                     </div>
-                                        
-                                    </div>
-                                  
+                                </div>
                              
                               
                            <div class="body">
 	                            <div class="row clearfix js-sweetalert">
-	                                 <button class="btn btn-primary waves-effect" type="submit" onclick="location.href='editUser.html'">Save</button>
+	                                 <button class="btn btn-primary waves-effect" type="submit" onclick="location.href='logGroupHome.html'">SUBMIT</button>
 	                                 <button class="btn btn-primary waves-effect" data-type="cancel" onclick="myFunction()" value="Reset">CANCEL</button> 
-	                            	<script>
-										function myFunction() {
-    										document.getElementById("form_editUser").reset();
+	                            			<script>
+											function myFunction() {
+    										document.getElementById("form_addLogGroup").reset();
 											}
-											</script> 
+											</script>
 	                            </div>
                            </div>
-                                  </c:forEach>
-                                    </c:if> 
+                                 </c:forEach>
+                                 </c:if>
                             </form:form>
                         </div>
                     </div>

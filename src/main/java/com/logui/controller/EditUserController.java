@@ -172,6 +172,68 @@ public class EditUserController {
 	}
 	
 	
+	private String delete(String id) throws Exception {
+		int sid=-1;
+		String firstname = null, lastname = null, updatedby=null;
+		int mastersid = 0, active =-1; 
+	
+	ArrayList<UserList> userlist = (ArrayList<UserList>) getlistUserInfo(id);
+	
+	for(UserList ulist : userlist)
+	{
+		sid = ulist.getSid();
+		firstname = ulist.getFirstName();
+		lastname= ulist.getLastName();
+		active = ulist.getIsActive();
+		mastersid = ulist.getMasterSid();
+		updatedby = ulist.getUpdatedBy();
+		
+	}
+	
+	
+	String url = "http://54.153.82.170:4000/atest/api/logging_user/";
+	URL obj = new URL(url);
+	HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+	int flag= -1;
+	//add reuqest header
+	con.setRequestMethod("DELETE");
+	con.setRequestProperty("User-Agent", USER_AGENT);
+	con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
+	con.setRequestProperty("Accept", "application/json");
+	con.setRequestProperty("Content-type", "application/json");
+	
+	String urlParameters = String.format("{\"req_data_length\":1,\"req_data\":[{\"sid\": %d,\"id\":\"%s\",\"master_sid\":%d ,\"first_name\":\"%s\",\"last_name\":\"%s\",\"is_active\":\"%d\",\"updated_by\":\"%s\"}] }",sid, id, mastersid, firstname, lastname, active, updatedby);
+	//String urlParameters= "{\"req_data_length\":1,\"req_data\":[{\"id\":"+userid+",\"master_sid\":\"21\",\"first_name\":"+firstname+",\"last_name\":"+lastname+",\"is_active\":\"0\",\"updated_by\":\"ishita\"}] }";
+	
+
+	// Send post request
+	con.setDoOutput(true);
+	DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+	wr.writeBytes(urlParameters);
+	wr.flush();
+	wr.close();
+
+	int responseCode = con.getResponseCode();
+	System.out.println("\nSending 'DELETE' request to URL : " + url);
+	System.out.println("DELETE parameters : " + urlParameters);
+	System.out.println("Response Code : " + responseCode);
+
+	BufferedReader in = new BufferedReader(
+	        new InputStreamReader(con.getInputStream()));
+	String inputLine;
+	StringBuffer response = new StringBuffer();
+
+	while ((inputLine = in.readLine()) != null) {
+		response.append(inputLine);
+	}
+	in.close();
+
+	//print result
+	System.out.println(response.toString());
+	return response.toString();
+
+}
+	
 	
 	@RequestMapping(value="/editUser", method = RequestMethod.GET)
     public ModelAndView  addUser(@RequestParam("id") String id) {
@@ -179,6 +241,23 @@ public class EditUserController {
 		ModelAndView model = new ModelAndView("editUser","userlist", userlist);
 		
    	 return model;
+	}
+	
+	@RequestMapping(value="/deleteUser", method = RequestMethod.GET)
+    public String  deleteUser(@RequestParam("id") String id, Model model) {
+		String response = null;
+		try {
+			response = delete(id);
+			System.out.println(response);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		model.addAttribute("index");
+		//("index","response", response);
+		
+		
+   	 return "redirect:/index";
 	}
 	
 	

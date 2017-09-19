@@ -38,7 +38,8 @@
     <script src="<c:url value="/js/pages/tables/jquery-datatable.js" />"></script>
 
 	 <script src="<c:url value="/plugins/sweetalert/sweetalert.min.js" />"></script>
-
+	 <script src="<c:url value="/plugins/sweetalert/sweetalert-dev.js" />"></script>
+	
     <!-- Custom Js -->
     
     <script src="<c:url value="/js/pages/ui/dialogs.js" />"></script>
@@ -51,6 +52,10 @@
  <!-- Google Fonts -->
     <link href="<c:url value="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" />" rel="stylesheet" type="text/css">
     <link href="<c:url value="https://fonts.googleapis.com/icon?family=Material+Icons" />" rel="stylesheet" type="text/css">
+
+	<!-- SweetAlert CSS -->
+	 <link href="<c:url value="/plugins/sweetalert/sweetalert.css" />" rel="stylesheet" type="text/css">
+
 
     <!-- Bootstrap Core Css -->
     <link href="<c:url value="/plugins/bootstrap/css/bootstrap.css" />" rel="stylesheet">
@@ -94,37 +99,40 @@
 		
 		<script type="text/javascript">
 		
-		$(document).ready(function () {
-		    $('.js-sweetalert button').on('click', function () {
-		        if (type === 'confirm') {
-		            showConfirmMessage();
-		        }
-		        
-		    });
-		});
 		
-		function showConfirmMessage() {
-		    swal({
-		        title: "Are you sure?",
-		        text: "You will not be able to recover this imaginary file!",
-		        type: "warning",
-		        showCancelButton: true,
-		        confirmButtonColor: "#DD6B55",
-		        confirmButtonText: "Yes, delete it!",
-		        cancelButtonText: "No, cancel plx!",
-		        closeOnConfirm: false,
-		        closeOnCancel: false
-		    }, function (isConfirm) {
-		        if (isConfirm) {
-		            swal("Deleted!", "Your imaginary file has been deleted.", "success");
-		        } else {
-		            swal("Cancelled", "Your imaginary file is safe :)", "error");
-		        }
-		    });
+		function showConfirmMessage(id) {
+			
+			swal({
+				  title: "Are you sure?",
+				  text: "Your will not be able to recover this imaginary file!",
+				  type: "warning",
+				  showCancelButton: true,
+				  confirmButtonClass: "btn-danger",
+				  confirmButtonText: "Yes, delete it!",
+				  closeOnConfirm: false
+				},
+				function(){
+					
+						$.ajax({
+                            type: "GET",
+                            url: "/LogManagement/deleteUser.html?id="+id,
+                            success: function (data) {
+                            	
+                            }
+                        })
+                        .done(function(data) {
+            	            swal("Deleted!", "Your user was successfully deleted!", "success");
+            	            location.href = "/LogManagement/index.html"
+            	          })
+            	          .error(function(data) {
+            	            swal("Oops", "We couldn't connect to the server!", "error");
+            	          });
+						
+					
+				});
 		}
 		
 		</script> 
-		
 		
 	</head>
 <body class="theme-red">
@@ -271,7 +279,7 @@
 	                                    				<i class="material-icons">mode_edit</i>
 	                                					</button>
 		                                            
-														<button type="button" class="btn bg-red btn-circle waves-effect waves-circle waves-float" data-type="confirm">
+														<button type="button" class="btn bg-red btn-circle waves-effect waves-circle waves-float" onclick="showConfirmMessage('${userlist.id}')">
 		                                    			<i class="material-icons">delete_forever</i>
 		                                				</button>
 	                                            	</div>

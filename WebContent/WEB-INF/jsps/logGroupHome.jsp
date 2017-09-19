@@ -150,10 +150,8 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                    
                         
-                        <div class="body">
-                            <div class="row" >
-				                
-				                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" >
+                       
+				               
 				                    <div class="card" style="width: 1030px;">
 				                        <div class="header bg-light-blue">
 				                            <h2>
@@ -180,7 +178,7 @@
 										                                        <tr>
 										                                            <td><c:out value="${logrouplist.name}"></c:out></td>
 										                                            <td>
-										                                            <button type="button" class="btn btn-warning btn-circle waves-effect waves-circle waves-float">
+										                                            <button type="button" class="btn btn-warning btn-circle waves-effect waves-circle waves-float" onclick="location.href='editLogGroup.html?id=${logrouplist.id}'">
 									                                    			<i style="height:20px" class="material-icons">mode_edit</i>
 									                                				</button>
 									                                				</td>
