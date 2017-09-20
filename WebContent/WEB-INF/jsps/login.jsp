@@ -82,15 +82,22 @@
 		
 		$.ajax({
             type: "POST",
-            url: "/LogManagement/logGroupHome.html",
+            url: "/LogManagement/logGroupHome.html", 
             success: function (data) {
-            	
+            	window.location.href = "/LogManagement/logGroupHome.html";
+            },
+            error: function(data){
+            	//swal("Oops", "Could not verify Please login again!", "error");
+            	alert("Please enter valid credentials");
+            	//window.location.href = "/LogManagement/";
             }
+		
         })
         
-          .error(function(data) {
+         /*  .error(function(data) {
             swal("Oops", "Could not verify Please login again!", "error");
-          });
+          } */
+          
 		
 	
 }
@@ -135,7 +142,7 @@
                             <label for="rememberme">Remember Me</label>
                         </div>
                         <div class="col-xs-4">
-                            <button class="btn btn-block bg-pink waves-effect" type="submit" onclick="enterLogin()">SIGN IN</button>
+                            <button class="btn btn-block bg-pink waves-effect" type="submit" >SIGN IN</button>
                         </div>
                     </div>
                     <div class="row m-t-15 m-b--20">

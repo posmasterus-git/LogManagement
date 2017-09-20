@@ -3,7 +3,7 @@
   <display-name>LogManagement</display-name>
   <welcome-file-list>
    
-    <welcome-file>login.jsp</welcome-file>
+    <welcome-file>/WEB-INF/jsps/login.jsp</welcome-file>
    
   </welcome-file-list>
   		
