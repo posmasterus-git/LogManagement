@@ -132,6 +132,7 @@
                         <span class="input-group-addon">
                             <i class="material-icons">lock</i>
                         </span>
+                       
                         <div class="form-line">
                             <input type="password" class="form-control" name="password" placeholder="Password" required>
                         </div>

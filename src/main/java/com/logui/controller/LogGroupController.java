@@ -21,7 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.logui.models.LogGroupModel;
 import com.logui.models.UserList;
-
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Controller
 public class LogGroupController {
@@ -119,7 +120,7 @@ public class LogGroupController {
 		{
 			flag=0;
 		}
-		String urlParameters = String.format("{\"req_data_length\":1,\"req_data\":[{\"id\":\"%s\",\"master_sid\":\"21\",\"name\":\"%s\",\"description\":\"%s\",\"is_active\":\"%d\",\"updated_by\":\"ishita\"}] }", logroupid, name, description, flag);
+		String urlParameters = String.format("{\"req_data_length\":1,\"req_data\":[{\"id\":\"%s\",\"master_sid\":\"10\",\"name\":\"%s\",\"description\":\"%s\",\"is_active\":\"%d\",\"updated_by\":\"sean09\"}] }", logroupid, name, description, flag);
 		//String urlParameters= "{\"req_data_length\":1,\"req_data\":[{\"id\":"+userid+",\"master_sid\":\"21\",\"first_name\":"+firstname+",\"last_name\":"+lastname+",\"is_active\":\"0\",\"updated_by\":\"ishita\"}] }";
 		
 
@@ -186,8 +187,15 @@ public class LogGroupController {
 	@RequestMapping(value = "/logGroupHome", method = RequestMethod.POST )
 	public String  createLogGroupModelView(Model model,@RequestParam String logroupid,@RequestParam String name,@RequestParam String description, @RequestParam String active) {
 		String response = null;
+		
+	
+		
 		try {
+			
+		      
+		      
 			response = sendPost(logroupid, name, description, active);
+			
 			System.out.println(response);
 		} catch (Exception e) {
 			
