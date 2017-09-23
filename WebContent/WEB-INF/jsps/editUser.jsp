@@ -202,7 +202,7 @@
                               
                            <div class="body">
 	                            <div class="row clearfix js-sweetalert">
-	                                 <button class="btn btn-primary waves-effect" type="submit" onclick="location.href='editUser.html'">Save</button>
+	                                 <button class="btn btn-primary waves-effect" type="submit" onclick="location.href='editUser.html';">Save</button>
 	                                 <button class="btn btn-primary waves-effect" data-type="cancel" onclick="myFunction()" value="Reset">CANCEL</button> 
 	                            	<script>
 										function myFunction() {
