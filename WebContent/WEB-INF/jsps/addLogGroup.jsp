@@ -165,7 +165,7 @@
                                
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                    
+                                    		<input type="hidden" name="active">
                                             <input type="checkbox" name="active" class="filled-in" id="ig_checkbox" checked/>
                                             <label for="ig_checkbox">Active</label>
                                        

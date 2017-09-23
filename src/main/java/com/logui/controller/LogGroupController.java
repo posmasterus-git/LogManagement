@@ -5,6 +5,7 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -20,9 +21,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.logui.models.LogGroupModel;
+import com.logui.models.LoginModel;
 import com.logui.models.UserList;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Controller
 public class LogGroupController {
@@ -112,7 +115,7 @@ public class LogGroupController {
 		con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 		con.setRequestProperty("Accept", "application/json");
 		con.setRequestProperty("Content-type", "application/json");
-		if(active.equals("on"))
+		if(active.equals(","+"on"))
 			{
 						flag= 1;
 			}
@@ -187,13 +190,20 @@ public class LogGroupController {
 	@RequestMapping(value = "/logGroupHome", method = RequestMethod.POST )
 	public String  createLogGroupModelView(Model model,@RequestParam String logroupid,@RequestParam String name,@RequestParam String description, @RequestParam String active) {
 		String response = null;
-		
+		String username=null;
+	LoginController loginco= new LoginController();
 	
 		
 		try {
-			
-		      
-		      
+			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			if (principal instanceof UserDetails) {
+			  username = ((UserDetails)principal).getUsername();
+			} else {
+			  username = principal.toString();
+			}
+		      int sid = loginco.getSID(username);
+		      System.out.println(username+"----------------------------------------------- Value of Username---------------------------------------------------------");
+		      System.out.println(sid+"----------+++++++++++++++++++ SID+++++++++++++++++++--------------------");
 			response = sendPost(logroupid, name, description, active);
 			
 			System.out.println(response);

@@ -78,29 +78,15 @@
 	
 	<script>
 	
-	function enterLogin(){
-		
-		$.ajax({
-            type: "POST",
-            url: "/LogManagement/logGroupHome.html", 
-            success: function (data) {
-            	window.location.href = "/LogManagement/logGroupHome.html";
-            },
-            error: function(data){
-            	//swal("Oops", "Could not verify Please login again!", "error");
-            	alert("Please enter valid credentials");
-            	//window.location.href = "/LogManagement/";
-            }
-		
-        })
-        
-         /*  .error(function(data) {
-            swal("Oops", "Could not verify Please login again!", "error");
-          } */
-          
-		
-	
-}
+	function setCookie(cname, cvalue){
+						    	
+		    	document.cookie = cname + "=" + cvalue + "; ";
+
+		 
+		    	
+		    	 
+		    	//localStorage.setItem('username',username);
+		}
 	</script>
 	
 	
@@ -118,14 +104,14 @@
         </div>
         <div class="card">
             <div class="body">
-                <form id="sign_in" method="POST" action="logGroupHomelogin">
+                <form id="sign_in" method="POST" action="logGroupHomelogin" >
                     <div class="msg">Sign in to start your session</div>
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="material-icons">person</i>
                         </span>
                         <div class="form-line">
-                            <input type="text" class="form-control" name="username" placeholder="Username" required autofocus>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="Username" required autofocus>
                         </div>
                     </div>
                     <div class="input-group">
@@ -134,7 +120,7 @@
                         </span>
                        
                         <div class="form-line">
-                            <input type="password" class="form-control" name="password" placeholder="Password" required>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                         </div>
                     </div>
                     <div class="row">
@@ -143,7 +129,7 @@
                             <label for="rememberme">Remember Me</label>
                         </div>
                         <div class="col-xs-4">
-                            <button class="btn btn-block bg-pink waves-effect" type="submit" >SIGN IN</button>
+                            <button class="btn btn-block bg-pink waves-effect" type="submit" onclick="setCookie('username', document.getElementById('username').value)">SIGN IN</button>
                         </div>
                     </div>
                     <div class="row m-t-15 m-b--20">

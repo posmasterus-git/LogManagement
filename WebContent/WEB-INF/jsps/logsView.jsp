@@ -51,6 +51,74 @@
 		<script src="js/html5shiv.js"></script>
 		<script src="js/respond.min.js"></script>
 		<![endif]-->
+		
+		<script type="text/javascript">
+		
+		function viewAccordingLCM(){
+			
+			var logtypeselect = document.getElementById('logtypeselect');
+			var categoryselect = document.getElementById('categoryselect');
+			var moduleselect = document.getElementById('moduleselect');
+			var selItems1 = "";
+			var selItems2 = "";
+			var selItems3 = "";
+			for(i=0;i<logtypeselect.options.length;i+=1){
+			  if(logtypeselect.options[i].selected){
+			    selItems1 = selItems1 + logtypeselect.options[i].value + "&";
+			  }
+			}
+			// Remove the last splitter
+			selItems1 = selItems1.substr(0,selItems1.length-1);
+			
+			
+			for(i=0;i<categoryselect.options.length;i+=1){
+				  if(categoryselect.options[i].selected){
+				    selItems2 = selItems2 + categoryselect.options[i].value + "&";
+				  }
+				}
+				// Remove the last splitter
+				selItems2 = selItems2.substr(0,selItems2.length-1);
+				
+				for(i=0;i<moduleselect.options.length;i+=1){
+					  if(moduleselect.options[i].selected){
+					    selItems3 = selItems3 + moduleselect.options[i].value + "&";
+					  }
+					}
+					// Remove the last splitter
+					selItems3 = selItems3.substr(0,selItems3.length-1);
+			alert("logtype->"+selItems1+"category->"+selItems2+"module->"+selItems3);
+			
+			
+				
+				$.ajax({
+                    type: "GET",
+                    url: "/LogManagement/logViewSelect.html?logtype="+selItems1+"&module="+selItems2+"&category="+selItems3,
+                    success: function (data) {
+                    	
+                    }
+                })
+                .done(function(data) {
+    	            swal("Deleted!", "Your user was successfully deleted!", "success");
+    	            location.href = "/LogManagement/index.html"
+    	          })
+    	          .error(function(data) {
+    	            swal("Oops", "We couldn't connect to the server!", "error");
+    	          });
+				
+			
+		
+			
+			
+			
+			
+			//logViewSelect.html?logtype=${logtype},category=${category},module=${module}
+		}
+		
+		</script>
+		
+		
+		
+		
 	</head>
 <body class="theme-red">
 			<nav class="navbar">
@@ -149,7 +217,7 @@
                                 
                                <c:if test="${not empty logtype && not empty category && not empty module}">
                                <div class="col-sm-2">
-                             LOGTYPE: <select class="form-control show-tick" name="logtypeselect" multiple>
+                             LOGTYPE: <select id="logtypeselect" class="form-control show-tick" name="logtypeselect" multiple>
                                      
 		          						<c:forEach var="logtype" items="${logtype}">
                                         <option value="<c:out value="${logtype}"></c:out>"  <c:if test="${paramValues.path == logtype}"> selected="selected"</c:if>><c:out value="${logtype}"></c:out></option>
@@ -159,7 +227,7 @@
                                     
                                 </div>
                                  <div class="col-sm-2">
-                                   CATEGORY: <select class="form-control show-tick" name="category" multiple>
+                                   CATEGORY: <select id="categoryselect" class="form-control show-tick" name="category" multiple>
                                        
                                        <c:forEach var="category" items="${category}">
                                         <option value="<c:out value="${category}"></c:out>"><c:out value="${category}"></c:out></option>
@@ -167,13 +235,13 @@
                                     </select>
                                 </div>
                                  <div class="col-sm-2">
-                                  MODULE:  <select class="form-control show-tick" name="module" multiple>
+                                  MODULE:  <select id="moduleselect" class="form-control show-tick" name="module" multiple>
                                        <c:forEach var="module" items="${module}">
                                         <option value="<c:out value="${module}"></c:out>"><c:out value="${module}"></c:out></option>
                                         </c:forEach>
                                     </select>
                                 </div>
-                              <br><button type="button" class="btn bg-red waves-effect" onclick="location.href='logViewSelect.html?logtype=${logtype},category=${category},module=${module}'">Search</button>
+                              <br><button type="button" class="btn bg-red waves-effect" onclick="viewAccordingLCM()">Search</button> <!-- location.href='logViewSelect.html?logtype=${logtype},category=${category},module=${module}'  -->
                               <button type="button" class="btn bg-red waves-effect" onclick="location.href='logGroupHome.html'">Log Group Page</button>
                               </c:if>
                               </form:form>

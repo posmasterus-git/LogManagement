@@ -31,6 +31,20 @@
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="<c:url value="/css/themes/all-themes.css" />" rel="stylesheet" />
+    <script>
+	function readCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+    }
+    return "";
+}
+</script>
+	
+	
 	
 	
 	<%-- <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css" />" />
@@ -165,15 +179,22 @@
                                 <div class="form-group form-float">
                                     <div class="form-line">
                                     <c:if test="${userlist.isActive eq 1 }">
+                                     <input type="hidden" name="active">
                                             <input type="checkbox" name="active" class="filled-in" id="ig_checkbox" checked/>
                                             </c:if>
                                             
                                             <c:if test="${userlist.isActive eq 0 }">
-                                            <input type="checkbox" name="active" class="filled-in" id="ig_checkbox"/>
+                                          <input type="hidden" name="active">
+											
+                                            <input type="checkbox" name="active" class="filled-in" id="ig_checkbox" />
                                             </c:if>
                                             <label for="ig_checkbox">Active</label>
                                        
                                     </div>
+                                    <script type="text/javascript">
+                                    document.getElementById('username2').value = readCookie("username");
+    </script>
+                                     <input type="hidden" name="username" id="username2" value="">
                                         
                                     </div>
                                   

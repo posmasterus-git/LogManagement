@@ -260,8 +260,8 @@ public List uniqueModule(String id){
 }
 	
 	
-	/*@RequestMapping(value = "/logsView", method = RequestMethod.GET )
-	public String  editUserModelView(Model model,@RequestParam("id") String id) {
+	/*@RequestMapping(value = "/logViewSelect", method = RequestMethod.GET )
+	public String  getLogs(Model model,@RequestParam("id") String id) {
 		String response = null;
 		try {
 			List<LogsListModel> logslist = getlistLogsInfo(id);

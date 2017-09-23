@@ -118,7 +118,7 @@ private String sendPost(String logroupid, String name, String description, Strin
 	con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 	con.setRequestProperty("Accept", "application/json");
 	con.setRequestProperty("Content-type", "application/json");
-	if(active.equals("on"))
+	if(active.equals(","+"on"))
 		{
 		flag= 1;
 		}

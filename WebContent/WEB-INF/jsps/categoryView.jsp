@@ -176,6 +176,7 @@
 	                                            <td><c:out value="${userlist.firstName}"></c:out></td>
 	                                            
 	                                            <td>
+	                                            <input type="hidden" name="active">
 	                                            <input type="checkbox" class="filled-in" checked />                            
 	                                            </td>
 	                                           

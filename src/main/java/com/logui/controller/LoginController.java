@@ -12,6 +12,9 @@ import java.util.Scanner;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -203,7 +206,9 @@ public ModelAndView  addUser() {
  String message = "<br><div style='text-align:center;'>"
 			+ "<h3>********** Hello World, Spring MVC Tutorial</h3>This message is coming from CrunchifyHelloWorld.java **********</div><br><br>";
 	
-
+ Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	String name = authentication.getName();
+	System.out.println("////////////////////////////////////////////////-------------------------User Name : "+name);
  return new ModelAndView("login", "message", message);
 }
 
@@ -224,13 +229,13 @@ public int passUsername(@RequestParam String username){
 	return sid;
 	
 }*/
-	
 
-	
 	@RequestMapping(value = "/logGroupHomelogin" , method=RequestMethod.POST)
 	public String  createLogGroupModelView(Model model,@RequestParam String username,@RequestParam String password) {
 		String response = null;
 		try {
+			
+						
 			response = getLogin(username, password);
 			System.out.println(response);
 		} catch (Exception e) {
@@ -241,7 +246,9 @@ public int passUsername(@RequestParam String username){
 		//("index","response", response);
 		
 		if(response.equals("true"))
+			
 		{
+			System.out.println("-------------------------------------------------------------From REDIRECT IF<-----------------------weuyhshjfdjgsjf"+username);
 			return "redirect:/logGroupHome?userid="+username;
 		}
 		

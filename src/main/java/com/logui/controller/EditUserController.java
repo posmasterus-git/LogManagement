@@ -111,37 +111,42 @@ public class EditUserController {
 	
 	
 	
-	private String sendPut(String userid,String firstname,String lastname, String active) throws Exception {
+	private String sendPut(String userid,String firstname,String lastname, String active, String master_username) throws Exception {
 			int sid=-1;
+		String on= "on";
+		String lastName = lastname;
 		
 		ArrayList<UserList> userlist = (ArrayList<UserList>) getlistUserInfo(userid);
-		
+		int flag= 1;
 		for(UserList ulist : userlist)
 		{
 			sid = ulist.getSid();
 		}
-		
+		   
 		Gson gson =new Gson();
 		
 		String url = "http://54.153.82.170:4000/atest/api/logging_user/";
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
-		int flag= -1;
+		
 		//add reuqest header
 		con.setRequestMethod("PUT");
 		con.setRequestProperty("User-Agent", USER_AGENT);
 		con.setRequestProperty("Accept-Language", "en-US,en;q=0.5");
 		con.setRequestProperty("Accept", "application/json");
 		con.setRequestProperty("Content-type", "application/json");
-		if(active.equals("on"))
+		System.out.println(active+"----------------------------------------------- Active-1235467445--------------------------------------------------------");
+		if(active.equals(","+on))
 				{
+			
 						flag= 1;
 				}
 		else
 		{
+			
 			flag=0;
 		}
-		String urlParameters = String.format("{\"req_data_length\":1,\"req_data\":[{\"sid\": %d,\"id\":\"%s\",\"master_sid\":\"21\",\"first_name\":\"%s\",\"last_name\":\"%s\",\"is_active\":\"%d\",\"updated_by\":\"ishita\"}] }",sid, userid, firstname, lastname, flag);
+		String urlParameters = String.format("{\"req_data_length\":1,\"req_data\":[{\"sid\": %d,\"id\":\"%s\",\"master_sid\":\"21\",\"first_name\":\"%s\",\"last_name\":\"%s\",\"is_active\":\"%d\",\"updated_by\":\"%s\"}] }",sid, userid, firstname, lastname, flag, master_username);
 		//String urlParameters= "{\"req_data_length\":1,\"req_data\":[{\"id\":"+userid+",\"master_sid\":\"21\",\"first_name\":"+firstname+",\"last_name\":"+lastname+",\"is_active\":\"0\",\"updated_by\":\"ishita\"}] }";
 		
 
@@ -266,10 +271,13 @@ public class EditUserController {
 	
 	
 	@RequestMapping(value = "/editUser", method = RequestMethod.POST )
-	public String  editUserModelView(Model model,@RequestParam String userid,@RequestParam String firstname,@RequestParam String lastname, @RequestParam String active) {
+	public String  editUserModelView(Model model,@RequestParam String userid,@RequestParam String firstname,@RequestParam String lastname, @RequestParam String active, @RequestParam String username) {
 		String response = null;
+		System.out.println(active+"--------------------------------------->active<--------------------------------------");
+		
+		
 		try {
-			response = sendPut(userid, firstname, lastname, active);
+			response = sendPut(userid, firstname, lastname, active, username);
 			System.out.println(response);
 		} catch (Exception e) {
 			
