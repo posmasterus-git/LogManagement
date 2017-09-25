@@ -181,8 +181,8 @@ public int getSID(String id){
 			
 			//Store the JSON object in JSON array as objects (For level 2 array element i.e Address Components)
 			//JSONArray jsonarr_2 = (JSONArray) jsonobj_1.get("address_components");
-			sid=((Long) jObj.get("master_sid")).intValue();
-			
+			sid=((Long) jObj.get("sid")).intValue();
+			System.out.println(sid+"---------------------->sid");
 			}
 			
 		

@@ -71,9 +71,9 @@
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="<c:url value="javascript:void(0);" />"><i class="material-icons">person</i>Profile</a></li>
+                          
                             <li role="seperator" class="divider"></li>
-                            <li><a href="<c:url value="javascript:void(0);" />"><i class="material-icons">input</i>Sign Out</a></li>
+                            <li><a href="<c:url value="/login.jsp" />"><i class="material-icons">input</i>Sign Out</a></li>
                         </ul>
                     </div>
                 </div>
@@ -108,7 +108,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<c:url value="/moduleView.html" />" class="menu-toggle">
+                        <a href="<c:url value="/moduleView.html" />" >
                             <i class="material-icons">widgets</i>
                             <span>Module</span>
                         </a>
@@ -116,10 +116,7 @@
                     </li>
                  
                     <li class="active">
-                        <a href="javascript:void(0);" class="menu-toggle">
-                            <i class="material-icons">assignment</i>
-                            <span>Forms</span>
-                        </a>
+                        
                     </li>
                     
                        
@@ -166,6 +163,24 @@
                                         <label class="form-label">Description</label>
                                     </div>
                                     </div>
+                                    
+		                                    <script>
+											function readCookie(cname) {
+										    var name = cname + "=";
+										    var ca = document.cookie.split(';');
+										    for(var i=0; i<ca.length; i++) {
+										        var c = ca[i];
+										        while (c.charAt(0)==' ') c = c.substring(1);
+										        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+										    }
+										    return "";
+										}
+										</script>
+										<input type="hidden" name="username" id="username2" value="">
+                                        <script type="text/javascript">
+                                    document.getElementById('username2').value = readCookie("username");
+    							</script>
+    							
                                 <div class="form-group form-float">
                                     <div class="form-line">
                                     		<input type="hidden" name="active">

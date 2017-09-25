@@ -20,9 +20,10 @@ public class LogTypeViewController {
 	
 	private final String USER_AGENT = "Mozilla/5.0";
 
-	private String sendPost(String subcode,String name,String description, String active) throws Exception {
+	private String sendPost(String subcode,String name,String description, String active, String master_username) throws Exception {
 		
-	
+		LoginController logcont = new LoginController();
+		int mastersid = logcont.getSID(master_username);
 	
 	String url = "http://54.153.82.170:4000/atest/api/logging_code_dict/";
 	URL obj = new URL(url);
@@ -42,7 +43,7 @@ public class LogTypeViewController {
 	{
 		flag=0;
 	}
-	String urlParameters = String.format("{\"req_data_length\":1,\"req_data\":[{\"master_sid\":\"20\", \"main_code\":\"001\", \"sub_code\":\"%s\",\"name\":\"%s\",\"description\":\"%s\", \"value\":\"12\", \"seq_order\":\"4561\",\"module\":\"kaushik\",\"is_active\":\"%d\", \"updated_by\":\"12\", \"comment\":\"kaushik\",\"ref_01\":\"ref_02\",\"used_code\":\"1\"}] }",subcode,name,description, flag);
+	String urlParameters = String.format("{\"req_data_length\":1,\"req_data\":[{\"master_sid\":\"%d\", \"main_code\":\"001\", \"sub_code\":\"%s\",\"name\":\"%s\",\"description\":\"%s\", \"value\":\"12\", \"seq_order\":\"4561\",\"module\":\"kaushik\",\"is_active\":\"%d\", \"updated_by\":\"%s\", \"comment\":\"kaushik\",\"ref_01\":\"ref_02\",\"used_code\":\"1\"}] }",mastersid,subcode,name,description, flag, master_username);
 	//String urlParameters= "{\"req_data_length\":1,\"req_data\":[{\"id\":"+userid+",\"master_sid\":\"21\",\"first_name\":"+firstname+",\"last_name\":"+lastname+",\"is_active\":\"0\",\"updated_by\":\"ishita\"}] }";
 	
 
@@ -79,10 +80,10 @@ public class LogTypeViewController {
 
 	
 	@RequestMapping(value = "/logTypeView", method = RequestMethod.POST )
-	public String  editUserModelView(Model model,@RequestParam String name,@RequestParam String subcode,@RequestParam String description, @RequestParam String active) {
+	public String  editUserModelView(Model model,@RequestParam String name,@RequestParam String subcode,@RequestParam String description, @RequestParam String active, @RequestParam String username) {
 		String response = null;
 		try {
-			response = sendPost(subcode, name, description, active);
+			response = sendPost(subcode, name, description, active, username);
 			System.out.println(response);
 		} catch (Exception e) {
 			

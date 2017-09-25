@@ -102,9 +102,12 @@ public class LogGroupController {
 	}
 	
 	
-	private String sendPost(String logroupid, String name, String description, String active) throws Exception {
+	private String sendPost(String logroupid, String name, String description, String active, String master_username) throws Exception {
 		final String USER_AGENT = "Mozilla/5.0";
-
+		
+		LoginController logcont = new LoginController();
+		int mastersid = logcont.getSID(master_username);
+		
 		String url = "http://54.153.82.170:4000/atest/api/logging_log_group/";
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -123,7 +126,7 @@ public class LogGroupController {
 		{
 			flag=0;
 		}
-		String urlParameters = String.format("{\"req_data_length\":1,\"req_data\":[{\"id\":\"%s\",\"master_sid\":\"10\",\"name\":\"%s\",\"description\":\"%s\",\"is_active\":\"%d\",\"updated_by\":\"sean09\"}] }", logroupid, name, description, flag);
+		String urlParameters = String.format("{\"req_data_length\":1,\"req_data\":[{\"id\":\"%s\",\"master_sid\":\"10\",\"name\":\"%s\",\"description\":\"%s\",\"is_active\":\"%d\",\"updated_by\":\"%s\"}] }", logroupid, name, description, flag, master_username);
 		//String urlParameters= "{\"req_data_length\":1,\"req_data\":[{\"id\":"+userid+",\"master_sid\":\"21\",\"first_name\":"+firstname+",\"last_name\":"+lastname+",\"is_active\":\"0\",\"updated_by\":\"ishita\"}] }";
 		
 
@@ -188,23 +191,15 @@ public class LogGroupController {
     }
 	*/
 	@RequestMapping(value = "/logGroupHome", method = RequestMethod.POST )
-	public String  createLogGroupModelView(Model model,@RequestParam String logroupid,@RequestParam String name,@RequestParam String description, @RequestParam String active) {
+	public String  createLogGroupModelView(Model model,@RequestParam String logroupid,@RequestParam String name,@RequestParam String description, @RequestParam String active, @RequestParam String username) {
 		String response = null;
-		String username=null;
+		
 	LoginController loginco= new LoginController();
 	
 		
 		try {
-			Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			if (principal instanceof UserDetails) {
-			  username = ((UserDetails)principal).getUsername();
-			} else {
-			  username = principal.toString();
-			}
-		      int sid = loginco.getSID(username);
-		      System.out.println(username+"----------------------------------------------- Value of Username---------------------------------------------------------");
-		      System.out.println(sid+"----------+++++++++++++++++++ SID+++++++++++++++++++--------------------");
-			response = sendPost(logroupid, name, description, active);
+			
+			response = sendPost(logroupid, name, description, active, username);
 			
 			System.out.println(response);
 		} catch (Exception e) {

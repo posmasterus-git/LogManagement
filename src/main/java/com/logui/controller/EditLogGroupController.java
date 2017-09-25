@@ -96,9 +96,10 @@ public List<LogGroupModel> listlogroupInfo(String logroupid){
 	}
 
 
-private String sendPost(String logroupid, String name, String description, String active) throws Exception {
+private String sendPost(String logroupid, String name, String description, String active, String master_username) throws Exception {
 	final String USER_AGENT = "Mozilla/5.0";
-	
+	LoginController logcont = new LoginController();
+	int mastersid = logcont.getSID(master_username);
 	int sid=-1;
 	
 	ArrayList<LogGroupModel> lglist = (ArrayList<LogGroupModel>) listlogroupInfo(logroupid);
@@ -126,7 +127,7 @@ private String sendPost(String logroupid, String name, String description, Strin
 	{
 		flag=0;
 	}
-	String urlParameters = String.format("{\"req_data_length\":1,\"req_data\":[{\"sid\":%d,\"id\":\"%s\",\"master_sid\":\"21\",\"name\":\"%s\",\"description\":\"%s\",\"is_active\":\"%d\",\"updated_by\":\"ishita\"}] }",sid, logroupid, name, description, flag);
+	String urlParameters = String.format("{\"req_data_length\":1,\"req_data\":[{\"sid\":%d,\"id\":\"%s\",\"master_sid\":\"%d\",\"name\":\"%s\",\"description\":\"%s\",\"is_active\":\"%d\",\"updated_by\":\"ishita\"}] }",sid, logroupid, mastersid,name, description, flag);
 	//String urlParameters= "{\"req_data_length\":1,\"req_data\":[{\"id\":"+userid+",\"master_sid\":\"21\",\"first_name\":"+firstname+",\"last_name\":"+lastname+",\"is_active\":\"0\",\"updated_by\":\"ishita\"}] }";
 	
 
@@ -171,10 +172,10 @@ private String sendPost(String logroupid, String name, String description, Strin
 		}
 
 		@RequestMapping(value = "/editLogGroup", method = RequestMethod.POST )
-		public String  editUserModelView(Model model,@RequestParam String logroupid,@RequestParam String name,@RequestParam String description, @RequestParam String active) {
+		public String  editUserModelView(Model model,@RequestParam String logroupid,@RequestParam String name,@RequestParam String description, @RequestParam String active, @RequestParam String username) {
 			String response = null;
 			try {
-				response = sendPost(logroupid, name, description, active);
+				response = sendPost(logroupid, name, description, active, username);
 				System.out.println(response);
 			} catch (Exception e) {
 				

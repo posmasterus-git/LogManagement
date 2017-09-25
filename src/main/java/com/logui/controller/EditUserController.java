@@ -114,7 +114,10 @@ public class EditUserController {
 	private String sendPut(String userid,String firstname,String lastname, String active, String master_username) throws Exception {
 			int sid=-1;
 		String on= "on";
-		String lastName = lastname;
+		//String lastName = lastname;
+		//System.out.println(master_username+"---------------------->This is master_username");
+		LoginController logcont = new LoginController();
+		int mastersid = logcont.getSID(master_username);
 		
 		ArrayList<UserList> userlist = (ArrayList<UserList>) getlistUserInfo(userid);
 		int flag= 1;
@@ -146,7 +149,7 @@ public class EditUserController {
 			
 			flag=0;
 		}
-		String urlParameters = String.format("{\"req_data_length\":1,\"req_data\":[{\"sid\": %d,\"id\":\"%s\",\"master_sid\":\"21\",\"first_name\":\"%s\",\"last_name\":\"%s\",\"is_active\":\"%d\",\"updated_by\":\"%s\"}] }",sid, userid, firstname, lastname, flag, master_username);
+		String urlParameters = String.format("{\"req_data_length\":1,\"req_data\":[{\"sid\": %d,\"id\":\"%s\",\"master_sid\":\"%d\",\"first_name\":\"%s\",\"last_name\":\"%s\",\"is_active\":\"%d\",\"updated_by\":\"%s\"}] }",sid, userid, mastersid, firstname, lastname, flag, master_username);
 		//String urlParameters= "{\"req_data_length\":1,\"req_data\":[{\"id\":"+userid+",\"master_sid\":\"21\",\"first_name\":"+firstname+",\"last_name\":"+lastname+",\"is_active\":\"0\",\"updated_by\":\"ishita\"}] }";
 		
 
@@ -184,6 +187,7 @@ public class EditUserController {
 		int sid=-1;
 		String firstname = null, lastname = null, updatedby=null;
 		int mastersid = 0, active =-1; 
+		
 	
 	ArrayList<UserList> userlist = (ArrayList<UserList>) getlistUserInfo(id);
 	

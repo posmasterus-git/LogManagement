@@ -39,8 +39,11 @@ public class Logcontroller {
 	private final String USER_AGENT = "Mozilla/5.0";
 	
 	
-	private String sendPost(String userid,String firstname,String lastname, String active) throws Exception {
-
+	private String sendPost(String userid,String firstname,String lastname, String active,String master_username) throws Exception {
+		
+		LoginController logcont = new LoginController();
+		int mastersid = logcont.getSID(master_username);
+		
 		String url = "http://54.153.82.170:4000/atest/api/logging_user/";
 		URL obj = new URL(url);
 		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -59,7 +62,7 @@ public class Logcontroller {
 		{
 			flag=0;
 		}
-		String urlParameters = String.format("{\"req_data_length\":1,\"req_data\":[{\"id\":\"%s\",\"master_sid\":\"21\",\"first_name\":\"%s\",\"last_name\":\"%s\",\"is_active\":\"%d\",\"updated_by\":\"ishita\"}] }", userid, firstname, lastname, flag);
+		String urlParameters = String.format("{\"req_data_length\":1,\"req_data\":[{\"id\":\"%s\",\"master_sid\":\"%d\",\"first_name\":\"%s\",\"last_name\":\"%s\",\"is_active\":\"%d\",\"updated_by\":\"%s\"}] }", userid, mastersid,firstname, lastname, flag, master_username);
 		//String urlParameters= "{\"req_data_length\":1,\"req_data\":[{\"id\":"+userid+",\"master_sid\":\"21\",\"first_name\":"+firstname+",\"last_name\":"+lastname+",\"is_active\":\"0\",\"updated_by\":\"ishita\"}] }";
 		
 
@@ -181,10 +184,10 @@ public List<UserList> listUserInfo(){
     }
 	
 	@RequestMapping(value = "/index", method = RequestMethod.POST )
-	public String  createUserModelView(Model model,@RequestParam String userid,@RequestParam String firstname,@RequestParam String lastname, @RequestParam String active) {
+	public String  createUserModelView(Model model,@RequestParam String userid,@RequestParam String firstname,@RequestParam String lastname, @RequestParam String active, @RequestParam String username) {
 		String response = null;
 		try {
-			response = sendPost(userid, firstname, lastname, active);
+			response = sendPost(userid, firstname, lastname, active, username);
 			System.out.println(response);
 		} catch (Exception e) {
 			

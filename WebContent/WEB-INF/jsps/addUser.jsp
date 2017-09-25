@@ -159,6 +159,25 @@
                                         <label class="form-label">Last Name</label>
                                     </div>
                                     </div>
+                                    
+		                                    <script>
+											function readCookie(cname) {
+										    var name = cname + "=";
+										    var ca = document.cookie.split(';');
+										    for(var i=0; i<ca.length; i++) {
+										        var c = ca[i];
+										        while (c.charAt(0)==' ') c = c.substring(1);
+										        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+										    }
+										    return "";
+										}
+										</script>
+										<input type="hidden" name="username" id="username2" value="">
+                                        <script type="text/javascript">
+                                    document.getElementById('username2').value = readCookie("username");
+    							</script>
+                                    
+                                    
                                 <div class="form-group form-float">
                                     <div class="form-line">
                                     	<input type="hidden" name="active">

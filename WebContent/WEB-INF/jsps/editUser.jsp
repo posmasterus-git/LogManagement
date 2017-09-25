@@ -44,9 +44,6 @@
 }
 </script>
 	
-	
-	
-	
 	<%-- <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css" />" />
 	<link rel="stylesheet" href="<c:url value="/css/datepicker3.css" />"/>
 	<link rel="stylesheet" href="<c:url value="/css/styles.css" />" /> --%>
@@ -85,9 +82,9 @@
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
-                            <li><a href="<c:url value="javascript:void(0);" />"><i class="material-icons">person</i>Profile</a></li>
+                          
                             <li role="seperator" class="divider"></li>
-                            <li><a href="<c:url value="javascript:void(0);" />"><i class="material-icons">input</i>Sign Out</a></li>
+                            <li><a href="<c:url value="/login.jsp" />"><i class="material-icons">input</i>Sign Out</a></li>
                         </ul>
                     </div>
                 </div>
@@ -191,11 +188,11 @@
                                             <label for="ig_checkbox">Active</label>
                                        
                                     </div>
-                                    <script type="text/javascript">
-                                    document.getElementById('username2').value = readCookie("username");
-    </script>
+                                    
                                      <input type="hidden" name="username" id="username2" value="">
-                                        
+                                        <script type="text/javascript">
+                                    document.getElementById('username2').value = readCookie("username");
+    							</script>
                                     </div>
                                   
                              
