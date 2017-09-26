@@ -96,7 +96,7 @@ public class Logcontroller {
 
 	
 	
-public List<UserList> listUserInfo(){
+public List<UserList> listUserInfo(String username){
 		
 	
 	String inline = "";
@@ -105,7 +105,7 @@ public List<UserList> listUserInfo(){
 	
 	try
 	{
-		URL url = new URL("http://54.153.82.170:4000/atest/api/logging_user/search?master_id=");
+		URL url = new URL("http://54.153.82.170:4000/atest/api/logging_user/search?master_id="+username);
 		//Parse URL into HttpURLConnection in order to open the connection in order to get the JSON data
 		HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 		//Set the request to GET or POST as per the requirements
@@ -176,8 +176,8 @@ public List<UserList> listUserInfo(){
 
 
 	@RequestMapping(value = "/index", method = RequestMethod.GET )
-    public ModelAndView  sayHello() {
-		List<UserList> userlist = listUserInfo();
+    public ModelAndView  sayHello(@RequestParam String username) {
+		List<UserList> userlist = listUserInfo(username);
 		ModelAndView model = new ModelAndView("index","userlist", userlist);
 		
    	 return model;
