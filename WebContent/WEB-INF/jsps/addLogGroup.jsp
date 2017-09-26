@@ -108,7 +108,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="<c:url value="/moduleView.html" />" class="menu-toggle">
+                        <a href="<c:url value="/moduleView.html" />" >
                             <i class="material-icons">widgets</i>
                             <span>Module</span>
                         </a>
@@ -144,7 +144,18 @@
                             <form id="form_addLogGroup" method="POST" action="/LogManagement/logGroupHome.html">
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" class="form-control" name="logroupid" maxlength="10" minlength="3" required/>
+                                        <input type="text" class="form-control" name="logroupid" required/>
+                                        <script type="text/javascript">
+                                        var field = document.querySelector('[name="logroupid"]');
+
+                                        field.addEventListener('keypress', function ( event ) {  
+                                           var key = event.keyCode;
+                                            if (key === 32) {
+                                              event.preventDefault();
+                                            }
+                                        });
+                                        </script>
+                                        
                                         <label class="form-label">LogGroup ID</label>
                                     </div>
                                     <div class="help-info">Group ID to identify log group</div>
@@ -154,6 +165,16 @@
                                     <div class="form-line">
                                         <input type="text" name="name" class="form-control" />
                                         <label class="form-label">Name</label>
+                                        <script type="text/javascript">
+                                        var field2 = document.querySelector('[name="name"]');
+
+                                        field2.addEventListener('keypress', function ( event ) {  
+                                           var key = event.keyCode;
+                                            if (key === 32) {
+                                              event.preventDefault();
+                                            }
+                                        });
+                                        </script>
                                     </div>
                                    </div> 
                                 <div class="form-group form-float">

@@ -165,8 +165,8 @@ private String sendPost(String logroupid, String name, String description, Strin
 
 		@RequestMapping(value="/editLogGroup", method = RequestMethod.GET)
 		public ModelAndView  addUser(@RequestParam("id") String id) {
-			List<LogGroupModel> userlist = listlogroupInfo(id);
-			ModelAndView model = new ModelAndView("editLogGroup","userlist", userlist);
+			List<LogGroupModel> logrouplist = listlogroupInfo(id);
+			ModelAndView model = new ModelAndView("editLogGroup","logrouplist", logrouplist);
 			
 			 return model;
 		}

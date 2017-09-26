@@ -159,22 +159,32 @@
                                 <table class="table table-bordered table-striped table-hover dataTable js-exportable">
                                     <thead>
                                         <tr>
-                                            <th>Sr. No.</th>
+                                            <th>Main Code.</th>
                                             <th>LogType</th>
                                             
-                                            <th>Action</th>
+                                            <th>Active</th>
                                             
                                         </tr>
                                     </thead>
                                     
                                     <tbody>
-                                 <c:if test="${not empty userlist}">
-		          						<c:forEach var="userlist" items="${userlist}"> 
+                                 <c:if test="${not empty logtypelist}">
+		          						<c:forEach var="logtypelist" items="${logtypelist}"> 
 	                                        <tr>
-	                                            <td><c:out value="${userlist.id}"></c:out></td>
-	                                            <td><c:out value="${userlist.firstName}"></c:out></td>
+	                                            <td><c:out value="${logtypelist.mainCode}"></c:out></td>
+	                                            <td><c:out value="${logtypelist.name}"></c:out></td>
 	                                            <td>
-	                                            <input type="checkbox" class="filled-in" checked />                            
+	                                            <c:if test="${logtypelist.isActive eq 1 }">
+	                                            	<div class="switch">
+                                            			<label><input type="checkbox" value="True" checked disabled><span class="lever switch-col-green"></span></label>
+	                                        	</div>
+	                                        	</c:if>
+                                        		
+                                        		<c:if test="${logtypelist.isActive eq 0 }">
+	                                            	<div class="switch">
+                                            			<label><input type="checkbox" disabled><span class="lever switch-col-green"></span></label>
+	                                        	</div>
+	                                        	</c:if>                           
 	                                            </td>
 	                                            
 	                                           

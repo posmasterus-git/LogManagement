@@ -142,8 +142,8 @@
                         </div>
                         <div class="body">
                             <form:form id="form_addLogGroup" method="POST" action="/LogManagement/editLogGroup.html">
-                            <c:if test="${not empty userlist}">
-			          			<c:forEach var="logrouplist" items="${userlist}">
+                            <c:if test="${not empty logrouplist}">
+			          			<c:forEach var="logrouplist" items="${logrouplist}">
                                 <div class="form-group form-float">
                                     <div class="form-line">
                                         <input type="text" class="form-control" name="logroupid" value="<c:out value="${logrouplist.id}"></c:out>" required/>

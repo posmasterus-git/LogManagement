@@ -5,17 +5,110 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.logui.models.LogTypeModel;
 @Controller
 public class CategoryViewController {
 
 	private final String USER_AGENT = "Mozilla/5.0";
+public List<LogTypeModel> listCategoryInfo(){
+		
+		
+		String inline = "";
+		LogTypeModel loggrouplistobj = null;
+		List<LogTypeModel> listofcategory= new ArrayList<LogTypeModel>();
+		
+		try
+		{
+			URL url = new URL("http://54.153.82.170:4000/atest/api/logging_code_dict/code_dict_list");
+			//Parse URL into HttpURLConnection in order to open the connection in order to get the JSON data
+			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+			//Set the request to GET or POST as per the requirements
+			conn.setRequestMethod("GET");
+			//Use the connect method to create the connection bridge
+			conn.connect();
+			//Get the response status of the Rest API
+			int responsecode = conn.getResponseCode();
+			System.out.println("Response code is: " +responsecode);
+			
+			//Iterating condition to if response code is not 200 then throw a runtime exception
+			//else continue the actual process of getting the JSON data
+			if(responsecode != 200)
+				throw new RuntimeException("HttpResponseCode: " +responsecode);
+			else
+			{
+				//Scanner functionality will read the JSON data from the stream
+				Scanner sc = new Scanner(url.openStream());
+				while(sc.hasNext())
+				{
+					inline+=sc.nextLine();
+				}
+				
+				sc.close();
+			}
+			
+			JSONParser parse = new JSONParser();
+			JSONObject obj = (JSONObject)parse.parse(inline);
+			JSONArray jsonarr_1 = (JSONArray) obj.get("data");
+			for(int i=0;i<jsonarr_1.size();i++)
+			{
+				JSONObject jObj = (JSONObject)jsonarr_1.get(i);
+				
+				
+				loggrouplistobj=new LogTypeModel();
+	            
+				
+				
+				
+				if(((String)jObj.get("main_code")).equals("002")){
+					loggrouplistobj.setSid(((Long) jObj.get("sid")).intValue());
+					loggrouplistobj.setMasterSid(((Long) jObj.get("master_sid")).intValue());
+					//loggrouplistobj.setValue(((Long) jObj.get("value")).intValue());
+					loggrouplistobj.setMainCode((String)jObj.get("main_code"));
+					loggrouplistobj.setSubCode((String)jObj.get("sub_code"));
+					loggrouplistobj.setName((String)jObj.get("name"));
+					loggrouplistobj.setComment((String)jObj.get("comment"));
+					loggrouplistobj.setModule((String)jObj.get("module"));
+					loggrouplistobj.setRef01((String)jObj.get("ref01"));
+					loggrouplistobj.setRef02((String)jObj.get("ref02"));
+					
+					loggrouplistobj.setUsedCode((String)jObj.get("used_code"));
+					System.out.println((String)jObj.get("name"));
+					loggrouplistobj.setDescription((String)jObj.get("description"));
+					loggrouplistobj.setIsActive(((Long) jObj.get("is_active")).intValue());
+					loggrouplistobj.setUpdatedAt((String)jObj.get("updated_at"));
+					loggrouplistobj.setUpdatedBy((String)jObj.get("updated_by"));
+					listofcategory.add(loggrouplistobj);
+				}
+				
+				
+				
+		       
+				}
+				
+			
+			//Disconnect the HttpURLConnection stream
+			conn.disconnect();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return listofcategory;
+	}
 
 	private String sendPost(String subcode,String name,String description, String active, String master_username) throws Exception {
 		
@@ -94,10 +187,11 @@ public class CategoryViewController {
 		
 	@RequestMapping("/categoryView")
     public ModelAndView  logView() {
-		String message = "<br><div style='text-align:center;'>"
-				+ "<h3>********** Hello World, Spring MVC Tutorial</h3>This message is coming from CrunchifyHelloWorld.java **********</div><br><br>";
-		
-		ModelAndView model = new ModelAndView("categoryView","message", message);
+
+
+			List<LogTypeModel> listofcategory = listCategoryInfo();
+				
+		ModelAndView model = new ModelAndView("categoryView","listofcategory", listofcategory);
 		
 		//model.addObject("userlist", userlist);
    	 return model;
