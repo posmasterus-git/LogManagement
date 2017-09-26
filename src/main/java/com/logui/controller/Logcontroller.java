@@ -105,7 +105,7 @@ public List<UserList> listUserInfo(){
 	
 	try
 	{
-		URL url = new URL("http://54.153.82.170:4000/atest/api/logging_user/user_list");
+		URL url = new URL("http://54.153.82.170:4000/atest/api/logging_user/search?master_id=");
 		//Parse URL into HttpURLConnection in order to open the connection in order to get the JSON data
 		HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 		//Set the request to GET or POST as per the requirements
