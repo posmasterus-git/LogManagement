@@ -200,7 +200,7 @@ public int getSID(String id){
 
 
 	
-@RequestMapping("/login")
+/*@RequestMapping("/login")
 public ModelAndView  addUser() {
     
  String message = "<br><div style='text-align:center;'>"
@@ -210,7 +210,7 @@ public ModelAndView  addUser() {
 	String name = authentication.getName();
 	System.out.println("////////////////////////////////////////////////-------------------------User Name : "+name);
  return new ModelAndView("login", "message", message);
-}
+}*/
 
 /*@RequestMapping(method=RequestMethod.GET)
 public int passUsername(@RequestParam String username){
@@ -229,6 +229,19 @@ public int passUsername(@RequestParam String username){
 	return sid;
 	
 }*/
+
+
+
+@RequestMapping("/login")
+public String Logout(Model model) {
+    
+ String message = "<br><div style='text-align:center;'>"
+			+ "<h3>********** Hello World, Spring MVC Tutorial</h3>This message is coming from CrunchifyHelloWorld.java **********</div><br><br>";
+	model.addAttribute("login");
+
+ return "redirect:/login";
+}
+
 
 	@RequestMapping(value = "/logGroupHomelogin" , method=RequestMethod.POST)
 	public String  createLogGroupModelView(Model model,@RequestParam String username,@RequestParam String password) {
@@ -249,7 +262,7 @@ public int passUsername(@RequestParam String username){
 			
 		{
 			System.out.println("-------------------------------------------------------------From REDIRECT IF<-----------------------weuyhshjfdjgsjf"+username);
-			return "redirect:/logGroupHome?userid="+username;
+			return "redirect:/logGroupHome?username="+username;
 		}
 		
 		else {

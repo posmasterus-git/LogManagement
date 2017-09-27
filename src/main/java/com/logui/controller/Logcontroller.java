@@ -22,6 +22,7 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -97,15 +98,19 @@ public class Logcontroller {
 	
 	
 public List<UserList> listUserInfo(String username){
-		
 	
+	
+	LoginController logcont = new LoginController();
+	int mastersid = logcont.getSID(username);
+
 	String inline = "";
 	UserList userlistobj = null;
 	List<UserList> listofusers= new ArrayList<UserList>();
 	
 	try
 	{
-		URL url = new URL("http://54.153.82.170:4000/atest/api/logging_user/search?master_id="+username);
+		URL url = new URL("http://54.153.82.170:4000/atest/api/logging_user/search?master_sid="+mastersid);
+		
 		//Parse URL into HttpURLConnection in order to open the connection in order to get the JSON data
 		HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 		//Set the request to GET or POST as per the requirements
@@ -175,13 +180,27 @@ public List<UserList> listUserInfo(String username){
 	}
 
 
-	@RequestMapping(value = "/index", method = RequestMethod.GET )
-    public ModelAndView  sayHello(@RequestParam String username) {
+	/*@RequestMapping(value = "/getindex", method = RequestMethod.GET )
+    public String  sayHello(Model model,@RequestParam("username") String username) {
 		List<UserList> userlist = listUserInfo(username);
+		model.addAttribute("userlist", userlist);
+		model.addAttribute("getindex");
+		return "redirect:/index";
+
+    }*/
+	
+	
+	@RequestMapping(value="/index", method = RequestMethod.GET)
+    public ModelAndView  addUser(@RequestParam("username") String username) {
+		List<UserList> userlist = listUserInfo(username);
+		System.out.println("+++++++++++++++ THIS IS FROM LIST of USER LIST++++++++++++++++++++++++"+username);
 		ModelAndView model = new ModelAndView("index","userlist", userlist);
 		
    	 return model;
-    }
+	}
+	
+	
+	
 	
 	@RequestMapping(value = "/index", method = RequestMethod.POST )
 	public String  createUserModelView(Model model,@RequestParam String userid,@RequestParam String firstname,@RequestParam String lastname, @RequestParam String active, @RequestParam String username) {
@@ -197,7 +216,7 @@ public List<UserList> listUserInfo(String username){
 		//("index","response", response);
 		
 		
-   	 return "redirect:/index";
+   	 return "redirect:/index?username="+username;
 	}
 	
 	/*@RequestMapping(value = "/index", method = RequestMethod.POST )

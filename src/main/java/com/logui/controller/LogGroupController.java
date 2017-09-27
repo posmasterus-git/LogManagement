@@ -31,8 +31,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class LogGroupController {
 	
 	
-	public List<LogGroupModel> listlogroupInfo(){
+	public List<LogGroupModel> listlogroupInfo(String username){
 		
+		LoginController logcont = new LoginController();
+		int mastersid = logcont.getSID(username);
 		
 		String inline = "";
 		LogGroupModel loggrouplistobj = null;
@@ -40,7 +42,7 @@ public class LogGroupController {
 		
 		try
 		{
-			URL url = new URL("http://54.153.82.170:4000/atest/api/logging_log_group/log_group_list");
+			URL url = new URL("http://54.153.82.170:4000/atest/api/logging_log_group/search?master_sid="+mastersid);
 			//Parse URL into HttpURLConnection in order to open the connection in order to get the JSON data
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 			//Set the request to GET or POST as per the requirements
@@ -126,7 +128,7 @@ public class LogGroupController {
 		{
 			flag=0;
 		}
-		String urlParameters = String.format("{\"req_data_length\":1,\"req_data\":[{\"id\":\"%s\",\"master_sid\":\"10\",\"name\":\"%s\",\"description\":\"%s\",\"is_active\":\"%d\",\"updated_by\":\"%s\"}] }", logroupid, name, description, flag, master_username);
+		String urlParameters = String.format("{\"req_data_length\":1,\"req_data\":[{\"id\":\"%s\",\"master_sid\":\"%d\",\"name\":\"%s\",\"description\":\"%s\",\"is_active\":\"%d\",\"updated_by\":\"%s\"}] }", logroupid, mastersid,name, description, flag, master_username);
 		//String urlParameters= "{\"req_data_length\":1,\"req_data\":[{\"id\":"+userid+",\"master_sid\":\"21\",\"first_name\":"+firstname+",\"last_name\":"+lastname+",\"is_active\":\"0\",\"updated_by\":\"ishita\"}] }";
 		
 
@@ -159,12 +161,10 @@ public class LogGroupController {
 	}
 
 	
-	
-	
 	@RequestMapping(value="/logGroupHome", method=RequestMethod.GET )
-    public ModelAndView  logView() {
+    public ModelAndView  logView(@RequestParam("username") String username) {
 		
-		List<LogGroupModel> logrouplist = listlogroupInfo();
+		List<LogGroupModel> logrouplist = listlogroupInfo(username);
 		ModelAndView model = new ModelAndView("logGroupHome","logrouplist", logrouplist);
 		
 		
@@ -210,7 +210,7 @@ public class LogGroupController {
 		//("index","response", response);
 		
 		
-   	 return "redirect:/logGroupHome";
+   	 return "redirect:/logGroupHome?username="+username;
 	}
 	
 	

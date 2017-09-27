@@ -27,7 +27,10 @@ public class LogTypeViewController {
 	
 	private final String USER_AGENT = "Mozilla/5.0";
 	
-	public List<LogTypeModel> listlogroupInfo(){
+	public List<LogTypeModel> listlogroupInfo(String username){
+		
+		LoginController logcont = new LoginController();
+		int mastersid = logcont.getSID(username);
 		
 		
 		String inline = "";
@@ -36,7 +39,7 @@ public class LogTypeViewController {
 		
 		try
 		{
-			URL url = new URL("http://54.153.82.170:4000/atest/api/logging_code_dict/code_dict_list");
+			URL url = new URL("http://54.153.82.170:4000/atest/api/logging_code_dict/search?master_sid="+mastersid);
 			//Parse URL into HttpURLConnection in order to open the connection in order to get the JSON data
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 			//Set the request to GET or POST as per the requirements
@@ -75,7 +78,7 @@ public class LogTypeViewController {
 				if(((String)jObj.get("main_code")).equals("001"))
 				{
 				
-					loggrouplistobj.setSid(((Long) jObj.get("sid")).intValue());
+					//loggrouplistobj.setSid(((Long) jObj.get("sid")).intValue());
 					loggrouplistobj.setMasterSid(((Long) jObj.get("master_sid")).intValue());
 				//	loggrouplistobj.setValue(((Long) jObj.get("value")).intValue());
 					loggrouplistobj.setMainCode((String)jObj.get("main_code"));
@@ -168,9 +171,6 @@ public class LogTypeViewController {
 }
 
 	
-	
-
-	
 	@RequestMapping(value = "/logTypeView", method = RequestMethod.POST )
 	public String  editUserModelView(Model model,@RequestParam String name,@RequestParam String subcode,@RequestParam String description, @RequestParam String active, @RequestParam String username) {
 		String response = null;
@@ -185,18 +185,13 @@ public class LogTypeViewController {
 		//("index","response", response);
 		
 		
-   	 return "redirect:/logTypeView";
+   	 return "redirect:/logTypeView?username="+username;
 	}
 	
-	
-	
-	
-	
-	
 	@RequestMapping("/logTypeView")
-    public ModelAndView  logView() {
+    public ModelAndView  logView(@RequestParam("username") String username) {
 	
-		List<LogTypeModel> logtypelist = listlogroupInfo();
+		List<LogTypeModel> logtypelist = listlogroupInfo(username);
 		ModelAndView model = new ModelAndView("logTypeView","logtypelist", logtypelist);
 		
 		

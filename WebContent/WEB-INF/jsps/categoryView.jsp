@@ -50,6 +50,20 @@
 		<script src="js/html5shiv.js"></script>
 		<script src="js/respond.min.js"></script>
 		<![endif]-->
+		
+		<script type="text/javascript">
+				function readCookie(cname) {
+				    var name = cname + "=";
+					 var ca = document.cookie.split(';');
+					 for(var i=0; i<ca.length; i++) {
+					 var c = ca[i];
+						while (c.charAt(0)==' ') c = c.substring(1);
+							if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+					}
+					return "";
+				}
+				</script>
+		
 	</head>
 <body class="theme-red">
 			<nav class="navbar">
@@ -80,7 +94,24 @@
                         <ul class="dropdown-menu pull-right">
                             
                             <li role="seperator" class="divider"></li>
-                            <li><a href="<c:url value="/login.jsp" />"><i class="material-icons">input</i>Sign Out</a></li>
+                            <li><a href="<c:url value="javascript:logoutvoid()" />">
+                            <script type="text/javascript">
+                            function delete_cookie( name ) {
+							  document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+							}
+                            
+                            function logoutvoid(){
+                            	var name= delete_cookie('username');
+								$.ajax({
+	                            type: "GET",
+	                            url: "/LogManagement/login.jsp",
+	                            success: function (data) {
+	                            	 location.href = "/LogManagement"
+	                            }
+	                        })
+                            }
+                            </script>
+                            <i class="material-icons">input</i>Sign Out</a></li>
                         </ul>
                     </div>
                 </div>
@@ -91,38 +122,113 @@
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
                     <li>
-                        <a href="<c:url value="/logGroupHome.html" />">
+                         <script>
+								
+									function logGroupHomemethod(){
+										var name= readCookie('username');
+										$.ajax({
+			                            type: "GET",
+			                            url: "/LogManagement/logGroupHome.html?username="+name,
+			                            success: function (data) {
+			                            	 location.href = "/LogManagement/logGroupHome.html?username="+name
+			                            }
+			                        })
+								}
+								</script>
+                        <a href="<c:url value="javascript:logGroupHomemethod()" />">
+                    
+                        
                             <i class="material-icons">home</i>
                             <span>Logs</span>
                         </a>
                     </li>
                     <li>
-                        <a href="<c:url value="/index.html" />">
+                     
+                    			  <script>
+								
+									function abc(){
+										var name= readCookie('username');
+										$.ajax({
+			                            type: "GET",
+			                            url: "/LogManagement/index.html?username="+name,
+			                            success: function (data) {
+			                            	 location.href = "/LogManagement/index.html?username="+name
+			                            }
+			                        })
+								}
+								</script>
+                        <a href="<c:url value="javascript:abc()" />">
+                        
+                         
                             <i class="material-icons">face</i>
                             <span>Users</span>
                         </a>
                     </li>
                     <li>
-                        <a href="<c:url value="/logTypeView.html" />">
+                    <script>
+								
+									function logtypeViewmethod(){
+										var name= readCookie('username');
+										$.ajax({
+			                            type: "GET",
+			                            url: "/LogManagement/logTypeView.html?username="+name,
+			                            success: function (data) {
+			                            	 location.href = "/LogManagement/logTypeView.html?username="+name
+			                            }
+			                        })
+								}
+								</script>
+                        <a href="<c:url value="javascript:logtypeViewmethod()" />">
+                        <!-- <a href="<c:url value="/logTypeView.html" />"> -->
                             <i class="material-icons">list</i>
                             <span>LogType</span>
                         </a>
                     </li>
                     <li>
-                        <a href="<c:url value="/categoryView.html" />">
+                    
+                    	<script>
+								
+									function categoryViewmethod(){
+										var name= readCookie('username');
+										$.ajax({
+			                            type: "GET",
+			                            url: "/LogManagement/categoryView.html?username="+name,
+			                            success: function (data) {
+			                            	 location.href = "/LogManagement/categoryView.html?username="+name
+			                            }
+			                        })
+								}
+								</script>
+                        <a href="<c:url value="javascript:categoryViewmethod()" />">
+                    
+                       <!-- <a href="<c:url value="/categoryView.html" />"> --> 
                             <i class="material-icons">layers</i>
                             <span>Category</span>
                         </a>
                     </li>
                     <li>
-                        <a href="<c:url value="/moduleView.html" />" class="menu-toggle">
+                    
+                    	<script>
+								
+									function moduleViewmethod(){
+										var name= readCookie('username');
+										$.ajax({
+			                            type: "GET",
+			                            url: "/LogManagement/moduleView.html?username="+name,
+			                            success: function (data) {
+			                            	 location.href = "/LogManagement/moduleView.html?username="+name
+			                            }
+			                        })
+								}
+								</script>
+                        <a href="<c:url value="javascript:moduleViewmethod()" />">
+                    
+                       <!--<a href="<c:url value="/moduleView.html" />">  --> 
                             <i class="material-icons">widgets</i>
                             <span>Module</span>
                         </a>
-                       
                     </li>
-                 
-                      <li class="active"></li>
+                    <li class="active"></li>
                        
                 </ul>
             </div>
@@ -157,6 +263,10 @@
                         </div>
                         <div class="body">
                             <div class="table-responsive">
+                              <input type="hidden" name="username" id="username2" value="">
+											                    <script type="text/javascript">
+																	            document.getElementById('username2').value = readCookie("username");
+																    	</script>  
                                 <table class="table table-bordered table-striped table-hover dataTable js-exportable">
                                     <thead>
                                         <tr>

@@ -183,7 +183,7 @@ public class EditUserController {
 	}
 	
 	
-	private String delete(String id) throws Exception {
+	private String delete(String id, String username) throws Exception {
 		int sid=-1;
 		String firstname = null, lastname = null, updatedby=null;
 		int mastersid = 0, active =-1; 
@@ -256,10 +256,10 @@ public class EditUserController {
 	}
 	
 	@RequestMapping(value="/deleteUser", method = RequestMethod.GET)
-    public String  deleteUser(@RequestParam("id") String id, Model model) {
+    public String  deleteUser(@RequestParam("id") String id, Model model,@RequestParam String username) {
 		String response = null;
 		try {
-			response = delete(id);
+			response = delete(id,username);
 			System.out.println(response);
 		} catch (Exception e) {
 			
@@ -269,7 +269,7 @@ public class EditUserController {
 		//("index","response", response);
 		
 		
-   	 return "redirect:/index";
+   	 return "redirect:/index?username="+username;
 	}
 	
 	
@@ -291,7 +291,7 @@ public class EditUserController {
 		//("index","response", response);
 		
 		
-   	 return "redirect:/index";
+   	 return "redirect:/index?username="+username;
 	}
 	
 	

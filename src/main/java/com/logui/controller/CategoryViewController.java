@@ -24,16 +24,18 @@ import com.logui.models.LogTypeModel;
 public class CategoryViewController {
 
 	private final String USER_AGENT = "Mozilla/5.0";
-public List<LogTypeModel> listCategoryInfo(){
+public List<LogTypeModel> listCategoryInfo(String username){
 		
-		
+	LoginController logcont = new LoginController();
+	int mastersid = logcont.getSID(username);	
+	
 		String inline = "";
 		LogTypeModel loggrouplistobj = null;
 		List<LogTypeModel> listofcategory= new ArrayList<LogTypeModel>();
 		
 		try
 		{
-			URL url = new URL("http://54.153.82.170:4000/atest/api/logging_code_dict/code_dict_list");
+			URL url = new URL("http://54.153.82.170:4000/atest/api/logging_code_dict/search?master_sid="+mastersid);
 			//Parse URL into HttpURLConnection in order to open the connection in order to get the JSON data
 			HttpURLConnection conn = (HttpURLConnection)url.openConnection();
 			//Set the request to GET or POST as per the requirements
@@ -74,7 +76,7 @@ public List<LogTypeModel> listCategoryInfo(){
 				
 				
 				if(((String)jObj.get("main_code")).equals("002")){
-					loggrouplistobj.setSid(((Long) jObj.get("sid")).intValue());
+					//loggrouplistobj.setSid(((Long) jObj.get("sid")).intValue());
 					loggrouplistobj.setMasterSid(((Long) jObj.get("master_sid")).intValue());
 					//loggrouplistobj.setValue(((Long) jObj.get("value")).intValue());
 					loggrouplistobj.setMainCode((String)jObj.get("main_code"));
@@ -179,17 +181,17 @@ public List<LogTypeModel> listCategoryInfo(){
 		//("index","response", response);
 		
 		
-   	 return "redirect:/categoryView";
+   	 return "redirect:/categoryView?username="+username;
 	}
 	
 	
 		
 		
 	@RequestMapping("/categoryView")
-    public ModelAndView  logView() {
+    public ModelAndView  logView(@RequestParam("username") String username) {
 
 
-			List<LogTypeModel> listofcategory = listCategoryInfo();
+			List<LogTypeModel> listofcategory = listCategoryInfo(username);
 				
 		ModelAndView model = new ModelAndView("categoryView","listofcategory", listofcategory);
 		

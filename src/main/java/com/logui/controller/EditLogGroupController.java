@@ -185,7 +185,7 @@ private String sendPost(String logroupid, String name, String description, Strin
 			//("index","response", response);
 			
 			
-	   	 return "redirect:/logGroupHome";
+	   	 return "redirect:/logGroupHome?username="+username;
 		}
 		
 
