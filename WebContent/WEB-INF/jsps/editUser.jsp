@@ -218,8 +218,13 @@
                             <span>Module</span>
                         </a>
                     </li>
-                    <li class="active"></li>
-                       
+                    <li>
+                     <a href="<c:url value="/apiList.html" />"> 
+                    <i class="material-icons">view_list</i>
+                    <span>APIs</span>
+                    </a>
+                    </li>
+                      <li class="active"> </li> 
                 </ul>
             </div>
             <!-- #Menu -->

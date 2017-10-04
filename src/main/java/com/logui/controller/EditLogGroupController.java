@@ -127,7 +127,7 @@ private String sendPost(String logroupid, String name, String description, Strin
 	{
 		flag=0;
 	}
-	String urlParameters = String.format("{\"req_data_length\":1,\"req_data\":[{\"sid\":%d,\"id\":\"%s\",\"master_sid\":\"%d\",\"name\":\"%s\",\"description\":\"%s\",\"is_active\":\"%d\",\"updated_by\":\"ishita\"}] }",sid, logroupid, mastersid,name, description, flag);
+	String urlParameters = String.format("{\"req_data_length\":1,\"req_data\":[{\"sid\":%d,\"id\":\"%s\",\"master_sid\":\"%d\",\"name\":\"%s\",\"description\":\"%s\",\"is_active\":\"%d\",\"updated_by\":\"%s\"}] }",sid, logroupid, mastersid,name, description, flag, master_username);
 	//String urlParameters= "{\"req_data_length\":1,\"req_data\":[{\"id\":"+userid+",\"master_sid\":\"21\",\"first_name\":"+firstname+",\"last_name\":"+lastname+",\"is_active\":\"0\",\"updated_by\":\"ishita\"}] }";
 	
 

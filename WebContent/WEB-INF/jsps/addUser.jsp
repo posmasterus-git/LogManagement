@@ -221,8 +221,13 @@
                             <span>Module</span>
                         </a>
                     </li>
-                    <li class="active"></li>
-                       
+                  <li>
+                     <a href="<c:url value="/apiList.html" />"> 
+                    <i class="material-icons">view_list</i>
+                    <span>APIs</span>
+                    </a>
+                    </li>
+                       <li class="active"> </li>
                 </ul>
             </div>
             <!-- #Menu -->
@@ -247,7 +252,19 @@
                             <form id="form_advanced_validation" method="POST" action="/LogManagement/index.html">
                                 <div class="form-group form-float">
                                     <div class="form-line">
-                                        <input type="text" name="userid" class="form-control" maxlength="10" minlength="3" required/>
+                                        <input type="text" name="userid" class="form-control" required/>
+                                        
+                                          <script type="text/javascript">
+                                        var field = document.querySelector('[name="userid"]');
+
+                                        field.addEventListener('keypress', function ( event ) {  
+                                           var key = event.keyCode;
+                                            if (key === 32) {
+                                              event.preventDefault();
+                                            }
+                                        });
+                                        </script>
+                                        
                                         <label class="form-label">User ID</label>
                                     </div>
                                     <div class="help-info">Used for Log-in</div>

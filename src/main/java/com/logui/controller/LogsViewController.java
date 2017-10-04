@@ -1,8 +1,14 @@
 package com.logui.controller;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -18,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.logui.models.LogGroupModel;
+import com.logui.models.LogTypeModel;
 import com.logui.models.LogsListModel;
 import com.logui.models.UserList;
 import com.logui.controller.*;
@@ -105,10 +112,207 @@ public List<LogGroupModel> listlogroupInfo(String logroupid){
 }
 
 
+public List<LogGroupModel> getLogGroupIDbySID(String log_group_sid){
+	
+	
+	String inline = "";
+	LogGroupModel loggrouplistobj = null;
+	List<LogGroupModel> listofloggroups= new ArrayList<LogGroupModel>();
+	
+	try
+	{
+		URL url = new URL("http://54.153.82.170:4000/atest/api/logging_log_group/search?log_group_sid="+log_group_sid);
+		//Parse URL into HttpURLConnection in order to open the connection in order to get the JSON data
+		HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+		//Set the request to GET or POST as per the requirements
+		conn.setRequestMethod("GET");
+		//Use the connect method to create the connection bridge
+		conn.connect();
+		//Get the response status of the Rest API
+		int responsecode = conn.getResponseCode();
+		System.out.println("Response code is: " +responsecode);
+		
+		//Iterating condition to if response code is not 200 then throw a runtime exception
+		//else continue the actual process of getting the JSON data
+		if(responsecode != 200)
+			throw new RuntimeException("HttpResponseCode: " +responsecode);
+		else
+		{
+			//Scanner functionality will read the JSON data from the stream
+			Scanner sc = new Scanner(url.openStream());
+			while(sc.hasNext())
+			{
+				inline+=sc.nextLine();
+			}
+			
+			sc.close();
+		}
+		
+		JSONParser parse = new JSONParser();
+		JSONObject obj = (JSONObject)parse.parse(inline);
+		JSONArray jsonarr_1 = (JSONArray) obj.get("data");
+		for(int i=0;i<jsonarr_1.size();i++)
+		{
+			JSONObject jObj = (JSONObject)jsonarr_1.get(i);
+			
+			
+			loggrouplistobj=new LogGroupModel();
+            
+			loggrouplistobj.setSid(((Long) jObj.get("sid")).intValue());
+			loggrouplistobj.setId((String)jObj.get("id"));
+			loggrouplistobj.setMasterSid(((Long) jObj.get("master_sid")).intValue());
+			loggrouplistobj.setName((String)jObj.get("name"));
+			System.out.println((String)jObj.get("name"));
+			loggrouplistobj.setDescription((String)jObj.get("description"));
+			loggrouplistobj.setIsActive(((Long) jObj.get("is_active")).intValue());
+			loggrouplistobj.setUpdatedAt((String)jObj.get("updated_at"));
+			loggrouplistobj.setUpdatedBy((String)jObj.get("updated_by"));
+            listofloggroups.add(loggrouplistobj);
+	       
+			}
+			
+		
+		//Disconnect the HttpURLConnection stream
+		conn.disconnect();
+	}
+	catch(Exception e)
+	{
+		e.printStackTrace();
+	}
+	return listofloggroups;
+}
+
+
+
+public List<LogsListModel> getListLogsMSID(String id, String master_username){
+	int sid=-1;
+	
+	LoginController logcont = new LoginController();
+	int mastersid = logcont.getSID(master_username);
+	
+	ArrayList<LogGroupModel> lglist = (ArrayList<LogGroupModel>) listlogroupInfo(id);
+	
+	for(LogGroupModel logrouplist : lglist)
+	{
+		sid = logrouplist.getSid();
+	}
+	String inline = "";
+	LogsListModel logslistobj = null;
+	List<LogsListModel> listoflogs= new ArrayList<LogsListModel>();
+	
+	try
+	{
+		URL url = new URL("http://54.153.82.170:4000/atest/api/logging_log/search?master_sid="+mastersid);
+		//Parse URL into HttpURLConnection in order to open the connection in order to get the JSON data
+		HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+		//Set the request to GET or POST as per the requirements
+		conn.setRequestMethod("GET");
+		//Use the connect method to create the connection bridge
+		conn.connect();
+		//Get the response status of the Rest API
+		int responsecode = conn.getResponseCode();
+		System.out.println("Response code is: " +responsecode);
+		
+		//Iterating condition to if response code is not 200 then throw a runtime exception
+		//else continue the actual process of getting the JSON data
+		if(responsecode != 200)
+			throw new RuntimeException("HttpResponseCode: " +responsecode);
+		else
+		{
+			//Scanner functionality will read the JSON data from the stream
+			Scanner sc = new Scanner(url.openStream());
+			while(sc.hasNext())
+			{
+				inline+=sc.nextLine();
+			}
+			
+			//Close the stream when reading the data has been finished
+			sc.close();
+		}
+		
+		//JSONParser reads the data from string object and break each data into key value pairs
+		JSONParser parse = new JSONParser();
+		//Type caste the parsed json data in json object
+		JSONObject obj = (JSONObject)parse.parse(inline);
+		//Store the JSON object in JSON array as objects (For level 1 array element i.e Results)
+		JSONArray jsonarr_1 = (JSONArray) obj.get("data");
+		//Get data for Results array
+		for(int i=0;i<jsonarr_1.size();i++)
+		{
+			//Store the JSON objects in an array
+			//Get the index of the JSON object and print the values as per the index
+			JSONObject jObj = (JSONObject)jsonarr_1.get(i);
+			
+			//Store the JSON object in JSON array as objects (For level 2 array element i.e Address Components)
+			//JSONArray jsonarr_2 = (JSONArray) jsonobj_1.get("address_components");
+			
+			logslistobj=new LogsListModel();
+            
+			logslistobj.setSid(((Long) jObj.get("sid")).intValue());
+            
+			logslistobj.setUserSid(((Long) jObj.get("user_sid")).intValue());
+			logslistobj.setLogGroupSid(((Long) jObj.get("log_group_sid")).intValue());
+			logslistobj.setCategory((String)jObj.get("category"));
+			logslistobj.setFilename((String)jObj.get("filename"));
+			logslistobj.setFunctionId((String)jObj.get("function_id"));
+			logslistobj.setLine(((Long) jObj.get("line")).intValue());
+			logslistobj.setLocation(((Long) jObj.get("location")).intValue());
+			logslistobj.setLogType((String)jObj.get("log_type"));
+			logslistobj.setMessage((String)jObj.get("message"));
+			logslistobj.setModule((String)jObj.get("module"));
+			logslistobj.setRef01((String)jObj.get("ref_01"));
+			logslistobj.setTestCode((String)jObj.get("test_code"));
+	        logslistobj.setRef02((String)jObj.get("ref_02"));		//((String)jObj.get("first_name"));
+	        logslistobj.setTags((String)jObj.get("tags"));		//((String)jObj.get("last_name"));
+	        
+	        logslistobj.setUpdatedAt((String)jObj.get("updated_at"));
+	        logslistobj.setUpdatedBy((String)jObj.get("updated_by"));
+	        listoflogs.add(logslistobj);
+			}
+			
+		
+		//Disconnect the HttpURLConnection stream
+		conn.disconnect();
+	}
+	catch(Exception e)
+	{
+		e.printStackTrace();
+	}
+	return listoflogs;		
+	}
+
+
+
+
+private String sendPost(String id, List<String> logtype, List<String> category, List<String> module, String master_username) throws Exception {
+	
+	LoginController logcont = new LoginController();
+	int mastersid = logcont.getSID(master_username);
+	String logList;
+	LogTypeViewController lgtyvc= new LogTypeViewController();
+	List<LogTypeModel> logTypeModelList = lgtyvc.listlogroupInfo(master_username);
+	for(LogTypeModel logtypeListValue: logTypeModelList){
+		logList=logtypeListValue.getName();
+		System.out.println(logList+"================================================Each of LOGTYPE LIST==============================");
+	}
+
+
+	
+	
+	return "HELLO123";
+		
+		
+	
+
+}    
+
+
 
 
 	public List<LogsListModel> getlistLogsInfo(String id){
 		int sid=-1;
+		
+		
 		
 		ArrayList<LogGroupModel> lglist = (ArrayList<LogGroupModel>) listlogroupInfo(id);
 		
@@ -201,6 +405,114 @@ public List<LogGroupModel> listlogroupInfo(String logroupid){
 		return listoflogs;		
 		}
 	
+	
+	
+	public List<LogsListModel> searchlistLogsInfo(String id,String logtype,String category,String module){
+		int sid=-1;
+		
+		ArrayList<LogGroupModel> lglist = (ArrayList<LogGroupModel>) listlogroupInfo(id);
+		
+		for(LogGroupModel logrouplist : lglist)
+		{
+			sid = logrouplist.getSid();
+		}
+		String inline = "";
+		LogsListModel logslistobj = null;
+		List<LogsListModel> listoflogs= new ArrayList<LogsListModel>();
+		
+		
+		if(!((logtype.equals(null)) && (category.equals(null)) && (module.equals(null))))
+		{
+			try
+			{
+				URL url = new URL("http://54.153.82.170:4000/atest/api/logging_log/search/"+id+"/?logtype="+logtype+"?category="+category+"?module="+module);
+				//Parse URL into HttpURLConnection in order to open the connection in order to get the JSON data
+				HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+				//Set the request to GET or POST as per the requirements
+				conn.setRequestMethod("GET");
+				//Use the connect method to create the connection bridge
+				conn.connect();
+				//Get the response status of the Rest API
+				int responsecode = conn.getResponseCode();
+				System.out.println("Response code is: " +responsecode);
+				
+				//Iterating condition to if response code is not 200 then throw a runtime exception
+				//else continue the actual process of getting the JSON data
+				if(responsecode != 200)
+					throw new RuntimeException("HttpResponseCode: " +responsecode);
+				else
+				{
+					//Scanner functionality will read the JSON data from the stream
+					Scanner sc = new Scanner(url.openStream());
+					while(sc.hasNext())
+					{
+						inline+=sc.nextLine();
+					}
+					
+					//Close the stream when reading the data has been finished
+					sc.close();
+				}
+				
+				//JSONParser reads the data from string object and break each data into key value pairs
+				JSONParser parse = new JSONParser();
+				//Type caste the parsed json data in json object
+				JSONObject obj = (JSONObject)parse.parse(inline);
+				//Store the JSON object in JSON array as objects (For level 1 array element i.e Results)
+				JSONArray jsonarr_1 = (JSONArray) obj.get("data");
+				//Get data for Results array
+				for(int i=0;i<jsonarr_1.size();i++)
+				{
+					//Store the JSON objects in an array
+					//Get the index of the JSON object and print the values as per the index
+					JSONObject jObj = (JSONObject)jsonarr_1.get(i);
+					
+					//Store the JSON object in JSON array as objects (For level 2 array element i.e Address Components)
+					//JSONArray jsonarr_2 = (JSONArray) jsonobj_1.get("address_components");
+					
+					logslistobj=new LogsListModel();
+		            
+					logslistobj.setSid(((Long) jObj.get("sid")).intValue());
+		            
+					logslistobj.setUserSid(((Long) jObj.get("user_sid")).intValue());
+					logslistobj.setLogGroupSid(((Long) jObj.get("log_group_sid")).intValue());
+					logslistobj.setCategory((String)jObj.get("category"));
+					logslistobj.setFilename((String)jObj.get("filename"));
+					logslistobj.setFunctionId((String)jObj.get("function_id"));
+					logslistobj.setLine(((Long) jObj.get("line")).intValue());
+					logslistobj.setLocation(((Long) jObj.get("location")).intValue());
+					logslistobj.setLogType((String)jObj.get("log_type"));
+					logslistobj.setMessage((String)jObj.get("message"));
+					logslistobj.setModule((String)jObj.get("module"));
+					logslistobj.setRef01((String)jObj.get("ref_01"));
+					logslistobj.setTestCode((String)jObj.get("test_code"));
+			        logslistobj.setRef02((String)jObj.get("ref_02"));		//((String)jObj.get("first_name"));
+			        logslistobj.setTags((String)jObj.get("tags"));		//((String)jObj.get("last_name"));
+			        
+			        logslistobj.setUpdatedAt((String)jObj.get("updated_at"));
+			        logslistobj.setUpdatedBy((String)jObj.get("updated_by"));
+			        listoflogs.add(logslistobj);
+					}
+					
+				
+				//Disconnect the HttpURLConnection stream
+				conn.disconnect();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			return listoflogs;
+		}
+		else{
+			return null;
+		}
+		
+		
+				
+		}
+	
+	
+	
 	public List uniqueLogType(String id){
 		
 		String logtype=null;
@@ -259,13 +571,38 @@ public List uniqueModule(String id){
 	
 }
 	
+
+
+
+		@RequestMapping(value="/addLogs")
+		public ModelAndView  addLogsMethod(@RequestParam("id") String id, @RequestParam String username) {
+			
+			List logtype = uniqueLogType(id);
+			List category = uniqueCategory(id);
+			List module = uniqueModule(id);
+			String returnvalue = null;
+			try {
+				returnvalue=sendPost(id, logtype, category, module, username);
+				System.out.println("-------------------------RETURN VALUE----------------------------------+)))))"+returnvalue);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			String message="Hello";
+			ModelAndView model = new ModelAndView("addLogs","returnvalue", returnvalue);
+			
+			
+			//model.addObject("userlist", userlist);
+			 return model;
+		}
+
+
 	
-	/*@RequestMapping(value = "/logViewSelect", method = RequestMethod.GET )
-	public String  getLogs(Model model,@RequestParam("id") String id) {
+	@RequestMapping(value = "/logViewSelect", method = RequestMethod.GET )
+	public String  getLogs(Model model,@RequestParam("id") String id, @RequestParam("logtype") String logtype, @RequestParam("module") String module,@RequestParam("category") String category) {
 		String response = null;
 		try {
-			List<LogsListModel> logslist = getlistLogsInfo(id);
-			
+			List<LogsListModel> logslist = searchlistLogsInfo(id,logtype,category,module);
 			
 			//response = getlistLogsInfo(id);
 			System.out.println(response);
@@ -277,9 +614,34 @@ public List uniqueModule(String id){
 		//("index","response", response);
 		
 		
-   	 return "redirect:/logsView";
-	}*/
+   	 return "redirect:/logsView?id="+id;
+	}
 	
+	
+	
+	/*@RequestMapping(value = "/logViewforLogroupid", method = RequestMethod.GET )
+	public String  getLogsByID(Model model,@RequestParam("id") String id) {
+		String response = null;
+		String log_group_id=null;
+		try {
+			List<LogGroupModel> logslist1 = getLogGroupIDbySID(id);
+			for(LogGroupModel lgm: logslist1){
+				log_group_id =lgm.getId();
+			}
+			
+			ArrayList<LogsListModel> logslist = (ArrayList<LogsListModel>) getlistLogsInfo(log_group_id);
+			model.addAttribute("logslist", logslist);
+		
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		model.addAttribute("logViewforLogroupid");
+		//("index","response", response);
+		
+		
+   	 return "redirect:/logsView?id="+log_group_id;
+	}*/
 	
 	@RequestMapping(value="/logsView", method = RequestMethod.GET)
 	public ModelAndView  viewLogs(@RequestParam("id") String id) {

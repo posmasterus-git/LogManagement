@@ -52,10 +52,25 @@
 		<script src="js/respond.min.js"></script>
 		<![endif]-->
 		
+			
+		<script type="text/javascript">
+				function readCookie(cname) {
+				    var name = cname + "=";
+					 var ca = document.cookie.split(';');
+					 for(var i=0; i<ca.length; i++) {
+					 var c = ca[i];
+						while (c.charAt(0)==' ') c = c.substring(1);
+							if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+					}
+					return "";
+				}
+				</script>
+		
+		
 		<script type="text/javascript">
 		
-		function viewAccordingLCM(){
-			
+		function viewAccordingLCM(sid){
+			alert(sid);
 			var logtypeselect = document.getElementById('logtypeselect');
 			var categoryselect = document.getElementById('categoryselect');
 			var moduleselect = document.getElementById('moduleselect');
@@ -92,14 +107,20 @@
 				
 				$.ajax({
                     type: "GET",
-                    url: "/LogManagement/logViewSelect.html?logtype="+selItems1+"&module="+selItems2+"&category="+selItems3,
+                    url: "/LogManagement/logViewSelect.html?id="+sid+"&logtype="+selItems1+"&module="+selItems2+"&category="+selItems3,
                     success: function (data) {
-                    	
+                    	$.ajax({
+                            type: "GET",
+                            url: "/LogManagement/logViewforLogroupid.html?id="+sid,
+                            success: function (data) {
+                            	
+                            }
+                    });
                     }
                 })
                 .done(function(data) {
-    	            swal("Deleted!", "Your user was successfully deleted!", "success");
-    	            location.href = "/LogManagement/index.html"
+    	            
+    	            location.href = "/LogManagement/logsView.html?id="
     	          })
     	          .error(function(data) {
     	            swal("Oops", "We couldn't connect to the server!", "error");
@@ -116,20 +137,7 @@
 		
 		</script>
 		
-		
-		<script type="text/javascript">
-				function readCookie(cname) {
-				    var name = cname + "=";
-					 var ca = document.cookie.split(';');
-					 for(var i=0; i<ca.length; i++) {
-					 var c = ca[i];
-						while (c.charAt(0)==' ') c = c.substring(1);
-							if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
-					}
-					return "";
-				}
-				</script>
-		
+	
 		
 	</head>
 <body class="theme-red">
@@ -294,8 +302,13 @@
                             <span>Module</span>
                         </a>
                     </li>
-                    <li class="active"></li>
-                       
+                    <li>
+                     <a href="<c:url value="/apiList.html" />"> 
+                    <i class="material-icons">view_list</i>
+                    <span>APIs</span>
+                    </a>
+                    </li>
+                       <li class="active"> </li>
                 </ul>
             </div>
             <!-- #Menu -->
@@ -318,9 +331,9 @@
                 <br>
                 <br>
                 <div class="row clearfix">
-                <form:form method="POST" action="/LogManagement/logsView.html">
+               <%--  <form:form method="POST" action="/LogManagement/logsView.html">
                                 
-                               <c:if test="${not empty logtype && not empty category && not empty module}">
+                               <c:if test="${not empty logtype && not empty category && not empty module && not empty logslist}">
                                <div class="col-sm-2">
                              LOGTYPE: <select id="logtypeselect" class="form-control show-tick" name="logtypeselect" multiple>
                                      
@@ -329,6 +342,13 @@
                                        </c:forEach>
                                    
                                     </select>
+                                    
+                                    
+                                    <c:if test="${not empty logslist}">
+		          						<c:forEach var="logslist" items="${logslist}">
+		          							<input type="hidden" name="logroupsid" id="logroupsid" value="${logslist.logGroupSid}">
+		          						</c:forEach>
+		          						</c:if>
                                     
                                 </div>
                                  <div class="col-sm-2">
@@ -346,11 +366,13 @@
                                         </c:forEach>
                                     </select>
                                 </div>
-                              <br><button type="button" class="btn bg-red waves-effect" onclick="viewAccordingLCM()">Search</button> <!-- location.href='logViewSelect.html?logtype=${logtype},category=${category},module=${module}'  -->
-                              <button type="button" class="btn bg-red waves-effect" onclick="location.href='logGroupHome.html'">Log Group Page</button>
+                              <br><button type="button" class="btn bg-red waves-effect" onclick="viewAccordingLCM(document.getElementById('logroupsid').value)">Search</button> <!-- location.href='logViewSelect.html?logtype=${logtype},category=${category},module=${module}'  -->
+                              <!--  <button type="button" class="btn bg-red waves-effect" onclick="location.href='logGroupHome.html'">Log Group Page</button> -->
                               </c:if>
-                              </form:form>
+                              </form:form> --%>
                             </div>
+                              
+                            
             </div>
 			<div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -365,9 +387,15 @@
                                         <script type="text/javascript">
                                     document.getElementById('username2').value = readCookie("username");
     							</script>
+    							
+    							
+    							
                                 <table class="table table-bordered table-striped table-hover dataTable js-exportable">
                                     <thead>
                                         <tr>
+                                        <th>Logtype</th>
+                                        <th>Category</th>
+                                        <th>Module</th>
                                             <th>Function ID</th>
                                             <th>Test Code</th>
                                             <th>Message</th>
@@ -382,6 +410,9 @@
                                     <c:if test="${not empty logslist}">
 		          						<c:forEach var="logslist" items="${logslist}">
 	                                        <tr>
+	                                        	<td><c:out value="${logslist.logType}"></c:out></td>
+	                                        	<td><c:out value="${logslist.category}"></c:out></td>
+	                                        	<td><c:out value="${logslist.module}"></c:out></td>
 	                                            <td><c:out value="${logslist.functionId}"></c:out></td>
 	                                            <td><c:out value="${logslist.testCode}"></c:out></td>
 	                                           <td><c:out value="${logslist.message}"></c:out></td>
@@ -391,6 +422,7 @@
 	                                            
 	                                           
 	                                        </tr>
+	                                       
                                        </c:forEach>
                                     </c:if>
                                         

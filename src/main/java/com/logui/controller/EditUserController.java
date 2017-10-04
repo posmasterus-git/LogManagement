@@ -109,8 +109,6 @@ public class EditUserController {
 		}
 	
 	
-	
-	
 	private String sendPut(String userid,String firstname,String lastname, String active, String master_username) throws Exception {
 			int sid=-1;
 		String on= "on";
@@ -183,8 +181,8 @@ public class EditUserController {
 	}
 	
 	
-	private String delete(String id, String username) throws Exception {
-		int sid=-1;
+	private String delete(String id) throws Exception {
+		
 		String firstname = null, lastname = null, updatedby=null;
 		int mastersid = 0, active =-1; 
 		
@@ -193,7 +191,7 @@ public class EditUserController {
 	
 	for(UserList ulist : userlist)
 	{
-		sid = ulist.getSid();
+		
 		firstname = ulist.getFirstName();
 		lastname= ulist.getLastName();
 		active = ulist.getIsActive();
@@ -214,7 +212,7 @@ public class EditUserController {
 	con.setRequestProperty("Accept", "application/json");
 	con.setRequestProperty("Content-type", "application/json");
 	
-	String urlParameters = String.format("{\"req_data_length\":1,\"req_data\":[{\"sid\": %d,\"id\":\"%s\",\"master_sid\":%d ,\"first_name\":\"%s\",\"last_name\":\"%s\",\"is_active\":\"%d\",\"updated_by\":\"%s\"}] }",sid, id, mastersid, firstname, lastname, active, updatedby);
+	String urlParameters = String.format("{\"req_data_length\":1,\"req_data\":[{\"id\":\"%s\",\"master_sid\":%d ,\"first_name\":\"%s\",\"last_name\":\"%s\",\"is_active\":\"%d\",\"updated_by\":\"%s\"}] }", id, mastersid, firstname, lastname, active, updatedby);
 	//String urlParameters= "{\"req_data_length\":1,\"req_data\":[{\"id\":"+userid+",\"master_sid\":\"21\",\"first_name\":"+firstname+",\"last_name\":"+lastname+",\"is_active\":\"0\",\"updated_by\":\"ishita\"}] }";
 	
 
@@ -229,7 +227,13 @@ public class EditUserController {
 	System.out.println("\nSending 'DELETE' request to URL : " + url);
 	System.out.println("DELETE parameters : " + urlParameters);
 	System.out.println("Response Code : " + responseCode);
-
+	
+	if(responseCode!=200){
+		return null;
+	} 
+	
+	else{
+	
 	BufferedReader in = new BufferedReader(
 	        new InputStreamReader(con.getInputStream()));
 	String inputLine;
@@ -243,6 +247,7 @@ public class EditUserController {
 	//print result
 	System.out.println(response.toString());
 	return response.toString();
+	}
 
 }
 	
@@ -259,17 +264,26 @@ public class EditUserController {
     public String  deleteUser(@RequestParam("id") String id, Model model,@RequestParam String username) {
 		String response = null;
 		try {
-			response = delete(id,username);
-			System.out.println(response);
-		} catch (Exception e) {
 			
-			e.printStackTrace();
+			response = delete(id);
+			
+			
+		} catch (Exception e) {
+		e.printStackTrace();
 		}
-		model.addAttribute("index");
-		//("index","response", response);
+		if(response!=null){
+			model.addAttribute("deleteUser");
+			
+			System.out.println(response);
+			return "redirect:/index?username="+username+"SUCCESS";
+			
+		}
+		else
+		{
+			return "redirect:/index?username="+username+"ERROR";
+		}
 		
 		
-   	 return "redirect:/index?username="+username;
 	}
 	
 	

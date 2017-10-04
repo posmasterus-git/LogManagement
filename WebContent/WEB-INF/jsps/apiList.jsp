@@ -1,19 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+ 
 <!DOCTYPE html>
- <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+   <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
-	<head>
-		<meta charset="utf-8">
-	    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Favicon-->
- <!-- Google Fonts -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Log Mgmt - Login</title>
+	
+	
+	 <!-- Google Fonts -->
     <link href="<c:url value="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" />" rel="stylesheet" type="text/css">
     <link href="<c:url value="https://fonts.googleapis.com/icon?family=Material+Icons" />" rel="stylesheet" type="text/css">
-	
-	<!-- SweetAlert CSS -->
-	 <link href="<c:url value="/plugins/sweetalert/sweetalert.css" />" rel="stylesheet" type="text/css">
-	
+
     <!-- Bootstrap Core Css -->
     <link href="<c:url value="/plugins/bootstrap/css/bootstrap.css" />" rel="stylesheet">
 
@@ -23,43 +26,22 @@
     <!-- Animation Css -->
     <link href="<c:url value="/plugins/animate-css/animate.css" />" rel="stylesheet" />
 
-    <!-- Colorpicker Css -->
-    <link href="<c:url value="/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.css" />" rel="stylesheet" />
-
-    <!-- Dropzone Css -->
-    <link href="<c:url value="/plugins/dropzone/dropzone.css" />" rel="stylesheet">
-
-    <!-- Multi Select Css -->
-    <link href="<c:url value="/plugins/multi-select/css/multi-select.css" />" rel="stylesheet">
-
-    <!-- Bootstrap Spinner Css -->
-    <link href="<c:url value="/plugins/jquery-spinner/css/bootstrap-spinner.css" />" rel="stylesheet">
-
-    <!-- Bootstrap Tagsinput Css -->
-    <link href="<c:url value="/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" />" rel="stylesheet">
-
-    <!-- Bootstrap Select Css -->
-    <link href="<c:url value="/plugins/bootstrap-select/css/bootstrap-select.css" />" rel="stylesheet" />
-
-    <!-- noUISlider Css -->
-    <link href="<c:url value="/plugins/nouislider/nouislider.min.css" />" rel="stylesheet" />
-
-    <!-- Custom Css -->
+      <!-- Custom Css -->
     <link href="<c:url value="/css/style.css" />" rel="stylesheet">
-    
-    
-     <script src="<c:url value="/plugins/sweetalert/sweetalert.min.js" />"></script>
-	 <script src="<c:url value="/plugins/sweetalert/sweetalert-dev.js" />"></script>
-	
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="<c:url value="/css/themes/all-themes.css" />" rel="stylesheet" />
-		<!--[if lt IE 9]>
-		<script src="js/html5shiv.js"></script>
-		<script src="js/respond.min.js"></script>
-		<![endif]-->
-		
-		
+	
+	
+	<%-- <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css" />" />
+	<link rel="stylesheet" href="<c:url value="/css/datepicker3.css" />"/>
+	<link rel="stylesheet" href="<c:url value="/css/styles.css" />" /> --%>
+	<!--[if lt IE 9]>
+	<script src="js/html5shiv.js"></script>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+	
+	
 		<script type="text/javascript">
 				function readCookie(cname) {
 				    var name = cname + "=";
@@ -72,48 +54,13 @@
 					return "";
 				}
 				</script>
-		
-		
-		
-		
-		<script type="text/javascript">
-		
-		
-		function editCheckbox(id,username,active) {
-			
-			swal({
-				 title: "Are you sure?",
-			        text: "You want to edit the Active/Inactive Logtype?",
-			        type: "warning",
-			        showCancelButton: true,
-			        confirmButtonColor: "#DD6B55",
-			        confirmButtonText: "Yes, edit it!",
-			        closeOnConfirm: false
-				},
-				function(isConfirm){
-					 if (!isConfirm){ 
-						 alert("Cannot complete the request");
-						 return;}
-						$.ajax({
-							url: "/LogManagement/editLogType.html?active="+active+"&username="+username+"id="+id,
-                            type: "GET",		
-                            success: function () {
-                            	
-                	            location.href = "/LogManagement/logTypeView.html?username="+username
-                            },
-							error: function () {
-							swal("Oops", "We couldn't connect to the server!!!Sorry!!!", "error");
-							}
-                        });         
-										
-				});
-		}
-		
-		</script> 
-		
-	</head>
+	
+</head>
+
+	
 <body class="theme-red">
-			<nav class="navbar">
+	
+		<nav class="navbar">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
@@ -164,11 +111,11 @@
             </div>
             <!-- #User Info -->
             <!-- Menu -->
-            <div class="menu">
+           				<div class="menu">
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
                     <li>
-                        <script>
+                         <script>
 								
 									function logGroupHomemethod(){
 										var name= readCookie('username');
@@ -274,7 +221,7 @@
                             <span>Module</span>
                         </a>
                     </li>
-                  <li>
+                   <li>
                      <a href="<c:url value="/apiList.html" />"> 
                     <i class="material-icons">view_list</i>
                     <span>APIs</span>
@@ -290,87 +237,85 @@
         </aside>
 	 
 	 </section>
-	
-	
-	
-	<section class="content">
-	<div class="container-fluid">
-		<div class="block-header">
-                <h2>
-                   Log Type List
-                    
-                </h2>
-                <br>
-                <br>
-                 <button type="button" class="btn bg-red waves-effect" onclick="location.href='addLogType.html'">Add LogType</button>
-            </div>
-			<div class="row clearfix">
+	 
+	 <section class="content">
+        <div class="container-fluid">
+	  <!-- Advanced Validation -->
+            <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
-                            
+                            <h2>APIs LIST</h2>
                             
                         </div>
                         <div class="body">
-                            <div class="table-responsive">
-                                
-										<input type="hidden" name="username" id="username2" value="">
-                                        <script type="text/javascript">
-                                    document.getElementById('username2').value = readCookie("username");
-    							</script>
-                                <table class="table table-bordered table-striped table-hover dataTable js-exportable">
-                                    <thead>
-                                        <tr>
-                                            <th>Main Code.</th>
-                                            <th>LogType</th>
-                                            
-                                            <th>Active</th>
-                                            
-                                        </tr>
-                                    </thead>
-                                    
-                                    <tbody>
-                                 <c:if test="${not empty logtypelist}">
-		          						<c:forEach var="logtypelist" items="${logtypelist}"> 
-	                                        <tr>
-	                                            <td><c:out value="${logtypelist.mainCode}"></c:out></td>
-	                                            <td><c:out value="${logtypelist.name}"></c:out></td>
-	                                            <td>
-	                                            <div class="row clearfix js-sweetalert">
-	                                            <c:if test="${logtypelist.isActive eq 1 }">
-	                                            	<div class="switch">
-                                            			<label><input type="checkbox" id="checking" value="True" checked onchange="editCheckbox(${logtypelist.sid },document.getElementById('username2').value, document.getElementById('checking').value)"><span class="lever switch-col-green"></span></label>
-	                                        	</div>
-	                                        	</c:if>
-                                        		
-                                        		<c:if test="${logtypelist.isActive eq 0 }">
-	                                            	<div class="switch">
-                                            			<label><input type="checkbox" id="checking2" value="False" onchange="editCheckbox(${logtypelist.sid },document.getElementById('username2').value, document.getElementById('checking2').value)"><span class="lever switch-col-green"></span></label>
-	                                        	</div>
-	                                        	</c:if> 
-	                                        	</div>                          
-	                                            </td>
-	                                            
-	                                           
-	                                        </tr>
-                                       </c:forEach>
-                                    </c:if>
-                                        
-                                    </tbody>
-                                </table>
-                            </div>
+                          <h3><b>List of APIs used under LOGGER module:</b></h3>
+                          <h3><b>MASTER</b></h3>
+                          
+                          1) [ GET ] : /atest/api/logging_master/: Display a simple test message on the console.<br>
+                          2) [ GET ] : /atest/api/logging_master/id/:id : Search a MASTER with 'id'.<br>
+                          3) [ GET ] : /atest/api/logging_master/search? : Search a MASTER with multiple attributes.<br>
+                          4) [ POST ] : /atest/api/logging_master/ : Insert a MASTER. <br>
+                          5) [ PUT ] : /atest/api/logging_master/ : Update a MASTER...[with ID]<br>
+                          6) [DELETE] : /atest/api/logging_master/ : Delete a MASTER...[with ID]<br>
+                          <br>
+                          <h3><b>USER</b></h3>
+                          1. [ GET  ] : /atest/api/logging_user/ : Display a simple test message on the console.<br>           
+							2. [ GET  ] : /atest/api/logging_user/id/:id : Search a USER with 'id'.     <br>
+							3. [ GET  ] : /atest/api/logging_user/search? : Search a USER with multiple attributes.   <br>
+							4. [ GET  ] : /atest/api/logging_user/user_list : Display list of all the users.  <br>
+							5. [ POST ] : /atest/api/logging_user/ : Insert a USER. <br>
+							6. [ PUT  ] : /atest/api/logging_user/ : Update a USER...[with ID] <br>        
+							7. [DELETE] : /atest/api/logging_user/ : Delete a USER...[with ID]  <br>
+							<br>  
+							<h3><b>LOG_GROUP</b></h3>
+							1. [ GET  ] : /atest/api/logging_log_group/ : Display a simple test message on the console. <br>               
+							2. [ GET  ] : /atest/api/logging_log_group/id/:id : Search a LOG_GROUP with 'id'. <br>         
+							3. [ GET  ] : /atest/api/logging_log_group/search? : Search a LOG_GROUP with multiple attributes.<br>         
+							4. [ GET  ] : /atest/api/logging_log_group/log_group_list : Display list of all the log_groups. <br> 
+							5. [ POST ] : /atest/api/logging_log_group/ : Insert a LOG_GROUP. <br> 
+							6. [ PUT  ] : /atest/api/logging_log_group/ : Update a LOG_GROUP...[with ID]<br>                
+							7. [DELETE] : /atest/api/logging_log_group/ : Delete a LOG_GROUP...[with ID]<br> 
+							<br> 
+							
+							<h3><b>CODE_DICT</b></h3>
+							1. [ GET  ] : /atest/api/logging_code_dict/ : Display a simple test message on the console.<br> 
+							2. [ GET  ] : /atest/api/logging_code_dict/id/:master_sid : Search CODE_DICT with master_sid.<br> 
+							3. [ GET  ] : /atest/api/logging_code_dict/id/:master_sid/:main_code : Search CODE_DICT with master_sid and main_code.<br> 
+							4. [ GET  ] : /atest/api/logging_code_dict/id/:master_sid/:main_code/:sub_code : Search CODE_DICT with master_sid, main_code and sub_code<br>  
+							5. [ GET  ] : /atest/api/logging_code_dict/code_dict_list : Display list of all the code_dicts. <br> 
+							6. [ POST ] : /atest/api/logging_code_dict/ : Insert a CODE_DICT. <br> 
+							7. [ PUT  ] : /atest/api/logging_code_dict/ : Update a CODE_DICT...[with SID]<br>   
+							8. [ GET  ] : /atest/api/logging_code_dict/search? : Search a CODE_DICT with multiple attributes.<br> 
+							<br> 
+							
+							<h3><b>LOG</b></h3>
+							1. [ GET  ] : /atest/api/logging_log/ : Display a simple test message on the console.<br> 
+							2. [ POST ] : /atest/api/logging_log/ : Insert a LOG.<br> 
+							3. [ GET  ] : /atest/api/logging_log/search/:log_group_sid/? : Search a LOG with multiple attributes...[with LOG_GROUP_SID]<br> 
+							<br> 
+							
+							<h3><b>LOGIN VALIDATION</b></h3>
+							
+							1. [ GET  ] : /atest/api/user_validation/ : Display a simple test message on the console.<br> 
+							2. [ POST ] : /atest/api/user_validation/ : Search and validate user id and pwd. <br> 
+							<br> 
                         </div>
                     </div>
                 </div>
             </div>
-			</div><!--/.row-->
-		
+	 
+	 
+	 
+	 </div>
+	 </section>
 	
-	</section>
 	
+	
+</body>
 
-	
-	<script src="<c:url value="/plugins/jquery/jquery.min.js" />"></script>
+
+<script src="<c:url value="/plugins/jquery/jquery.min.js" />"></script>
 
     <!-- Bootstrap Core Js -->
     <script src="<c:url value="/plugins/bootstrap/js/bootstrap.js" />"></script>
@@ -383,6 +328,12 @@
 
     <!-- Waves Effect Plugin Js -->
     <script src="<c:url value="/plugins/node-waves/waves.js" />"></script>
+    
+     <!-- SweetAlert Plugin Js -->
+    <script src="<c:url value="/plugins/sweetalert/sweetalert.min.js" />"></script>
+    <!-- Bootstrap Notify Plugin Js -->
+    <script src="<c:url value="/plugins/bootstrap-notify/bootstrap-notify.js" />"></script>
+    
 
     <!-- Jquery DataTable Plugin Js -->
     <script src="<c:url value="/plugins/jquery-datatable/jquery.dataTables.js" />"></script>
@@ -398,12 +349,7 @@
     <!-- Custom Js -->
     <script src="<c:url value="/js/admin.js" />"></script>
     <script src="<c:url value="/js/pages/tables/jquery-datatable.js" />"></script>
-
+	 <script src="<c:url value="/js/pages/ui/dialogs.js" />"></script>
     <!-- Demo Js -->
     <script src="<c:url value="/js/demo.js" />"></script>
-	
-	
-	
-	
-</body>
 </html>

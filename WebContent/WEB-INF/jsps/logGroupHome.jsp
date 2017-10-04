@@ -169,19 +169,18 @@
                         </a>
                     </li>
                     <li>
-                    <script>
-								
-									function logtypeViewmethod(){
-										var name= readCookie('username');
-										$.ajax({
-			                            type: "GET",
-			                            url: "/LogManagement/logTypeView.html?username="+name,
-			                            success: function (data) {
-			                            	 location.href = "/LogManagement/logTypeView.html?username="+name
-			                            }
+                    	<script>
+                    		function logtypeViewmethod(){
+									var name= readCookie('username');
+									$.ajax({
+				                        type: "GET",
+				                        url: "/LogManagement/logTypeView.html?username="+name,
+				                        success: function (data) {
+				                        	location.href = "/LogManagement/logTypeView.html?username="+name
+				                        }
 			                        })
 								}
-								</script>
+						</script>
                         <a href="<c:url value="javascript:logtypeViewmethod()" />">
                         <!-- <a href="<c:url value="/logTypeView.html" />"> -->
                             <i class="material-icons">list</i>
@@ -232,8 +231,13 @@
                             <span>Module</span>
                         </a>
                     </li>
-                    <li class="active"></li>
-                       
+                    <li class="active">
+                     <a href="<c:url value="/apiList.html" />"> 
+                    <i class="material-icons">view_list</i>
+                    <span>APIs</span>
+                    </a>
+                    </li>
+                     <li class="active"> </li>  
                 </ul>
             </div>
             <!-- #Menu -->
@@ -297,6 +301,8 @@
 										                                            <button type="button" class="btn btn-warning btn-circle waves-effect waves-circle waves-float" onclick="location.href='editLogGroup.html?id=${logrouplist.id}'">
 									                                    			<i style="height:20px" class="material-icons">mode_edit</i>
 									                                				</button>
+									                                				
+									                                				<!--   <button type="button" class="btn bg-red waves-effect" onclick="location.href='addLogs.html?id=${logrouplist.id}&username='+<script>document.getElementById('username2').value</script>">Add Log</button>-->
 									                                				</td>
 										                                        </tr>
 								                                        	</c:forEach>

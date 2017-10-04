@@ -221,8 +221,14 @@
                             <span>Module</span>
                         </a>
                     </li>
-                    <li class="active"></li>
-                       
+                   
+                    <li>
+                     <a href="<c:url value="/apiList.html" />"> 
+                    <i class="material-icons">view_list</i>
+                    <span>APIs</span>
+                    </a>
+                    </li>
+                    <li class="active"> </li>
                 </ul>
             </div>
             <!-- #Menu -->
@@ -299,7 +305,7 @@
                               
                            <div class="body">
 	                            <div class="row clearfix js-sweetalert">
-	                                 <button class="btn btn-primary waves-effect" type="submit" onclick="location.href='index.html'">SUBMIT</button>
+	                                 <button class="btn btn-primary waves-effect" type="submit" >SUBMIT</button>
 	                                 <button class="btn btn-primary waves-effect" data-type="cancel">CANCEL</button> 
 	                            </div>
                            </div>

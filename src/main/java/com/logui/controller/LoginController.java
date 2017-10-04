@@ -243,6 +243,17 @@ public String Logout(Model model) {
 }
 
 
+@RequestMapping("/apiList")
+public ModelAndView apiListMethod() {
+    
+ String message = "<br><div style='text-align:center;'>"
+			+ "<h3>********** Hello World, Spring MVC Tutorial</h3>This message is coming from CrunchifyHelloWorld.java **********</div><br><br>";
+ModelAndView model =new ModelAndView("apiList","message",message);	
+
+
+ return model;
+}
+
 	@RequestMapping(value = "/logGroupHomelogin" , method=RequestMethod.POST)
 	public String  createLogGroupModelView(Model model,@RequestParam String username,@RequestParam String password) {
 		String response = null;

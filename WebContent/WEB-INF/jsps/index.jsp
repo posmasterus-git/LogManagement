@@ -117,35 +117,33 @@
 		<script type="text/javascript">
 		
 		
-		function showConfirmMessage(id) {
-			var name= readCookie('username');
+		function showConfirmMessage(id,username) {
+			
 			swal({
-				  title: "Are you sure?",
-				  text: "Your will not be able to recover this imaginary file!",
-				  type: "warning",
-				  showCancelButton: true,
-				  confirmButtonClass: "btn-danger",
-				  confirmButtonText: "Yes, delete it!",
-				  closeOnConfirm: false
+				 title: "Are you sure?",
+			        text: "You will not be able to recover the deleted User!",
+			        type: "warning",
+			        showCancelButton: true,
+			        confirmButtonColor: "#DD6B55",
+			        confirmButtonText: "Yes, delete it!",
+			        closeOnConfirm: false
 				},
-				function(){
-					
+				function(isConfirm){
+					 if (!isConfirm){ 
+						 alert("Cannot even go to ajx request");
+						 return;}
 						$.ajax({
-                            type: "GET",
-                            url: "/LogManagement/deleteUser.html?id="+id,
-                            success: function (data) {
+							url: "/LogManagement/deleteUser.html?id="+id+"&username="+username,
+                            type: "GET",		
+                            success: function () {
                             	
-                            }
-                        })
-                        .done(function(data) {
-            	            swal("Deleted!", "Your user was successfully deleted!", "success");
-            	            location.href = "/LogManagement/index.html?username="+name
-            	          })
-            	          .error(function(data) {
-            	            swal("Oops", "We couldn't connect to the server!", "error");
-            	          });
-						
-					
+                	            location.href = "/LogManagement/index.html?username="+username
+                            },
+							error: function () {
+							swal("Oops", "We couldn't connect to the server!!!Sorry!!!", "error");
+							}
+                        });         
+										
 				});
 		}
 		
@@ -317,7 +315,13 @@
                             <span>Module</span>
                         </a>
                     </li>
-                    <li class="active"></li>
+                  <li>
+                     <a href="<c:url value="/apiList.html" />"> 
+                    <i class="material-icons">view_list</i>
+                    <span>APIs</span>
+                    </a>
+                    </li>
+                    <li class="active"> </li>
                        
                 </ul>
             </div>
@@ -351,7 +355,7 @@
               
                   <div class="body">
                      <div class="table-responsive">
-                     <form name="indexform" action="/LogManagement/index.html" method="get">
+                   
                        
 					    					    
 										<input type="hidden" name="username" id="username2" value="">
@@ -408,7 +412,7 @@
 	                                    				<i class="material-icons">mode_edit</i>
 	                                					</button>
 		                                            
-														<button type="button" class="btn bg-red btn-circle waves-effect waves-circle waves-float" onclick="showConfirmMessage('${userlist.id}')">
+														<button type="button" class="btn bg-red btn-circle waves-effect waves-circle waves-float" onclick="showConfirmMessage('${userlist.id}',document.getElementById('username2').value)">
 		                                    			<i class="material-icons">delete_forever</i>
 		                                				</button>
 	                                            	</div>
@@ -421,7 +425,7 @@
                                         
                                     </tbody>
                                 </table>
-                                </form>
+                                
                             </div>
                         </div>
                     </div>

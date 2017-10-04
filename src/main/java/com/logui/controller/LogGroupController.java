@@ -172,6 +172,8 @@ public class LogGroupController {
    	 return model;
     }
 	
+	
+	
 /*	@RequestMapping(value = "/logGroupHome", method = RequestMethod.POST )
     public ModelAndView  createUserModelView(@RequestParam String logroupid,@RequestParam String name,@RequestParam String description, @RequestParam String active) {
 		String response = null;

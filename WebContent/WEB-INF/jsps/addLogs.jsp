@@ -1,19 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+ 
 <!DOCTYPE html>
- <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+   <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <html>
-	<head>
-		<meta charset="utf-8">
-	    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Favicon-->
- <!-- Google Fonts -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Log Mgmt - Login</title>
+	
+	
+	 <!-- Google Fonts -->
     <link href="<c:url value="https://fonts.googleapis.com/css?family=Roboto:400,700&subset=latin,cyrillic-ext" />" rel="stylesheet" type="text/css">
     <link href="<c:url value="https://fonts.googleapis.com/icon?family=Material+Icons" />" rel="stylesheet" type="text/css">
-	
-	<!-- SweetAlert CSS -->
-	 <link href="<c:url value="/plugins/sweetalert/sweetalert.css" />" rel="stylesheet" type="text/css">
-	
+
     <!-- Bootstrap Core Css -->
     <link href="<c:url value="/plugins/bootstrap/css/bootstrap.css" />" rel="stylesheet">
 
@@ -23,43 +26,22 @@
     <!-- Animation Css -->
     <link href="<c:url value="/plugins/animate-css/animate.css" />" rel="stylesheet" />
 
-    <!-- Colorpicker Css -->
-    <link href="<c:url value="/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.css" />" rel="stylesheet" />
-
-    <!-- Dropzone Css -->
-    <link href="<c:url value="/plugins/dropzone/dropzone.css" />" rel="stylesheet">
-
-    <!-- Multi Select Css -->
-    <link href="<c:url value="/plugins/multi-select/css/multi-select.css" />" rel="stylesheet">
-
-    <!-- Bootstrap Spinner Css -->
-    <link href="<c:url value="/plugins/jquery-spinner/css/bootstrap-spinner.css" />" rel="stylesheet">
-
-    <!-- Bootstrap Tagsinput Css -->
-    <link href="<c:url value="/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css" />" rel="stylesheet">
-
-    <!-- Bootstrap Select Css -->
-    <link href="<c:url value="/plugins/bootstrap-select/css/bootstrap-select.css" />" rel="stylesheet" />
-
-    <!-- noUISlider Css -->
-    <link href="<c:url value="/plugins/nouislider/nouislider.min.css" />" rel="stylesheet" />
-
-    <!-- Custom Css -->
+      <!-- Custom Css -->
     <link href="<c:url value="/css/style.css" />" rel="stylesheet">
-    
-    
-     <script src="<c:url value="/plugins/sweetalert/sweetalert.min.js" />"></script>
-	 <script src="<c:url value="/plugins/sweetalert/sweetalert-dev.js" />"></script>
-	
 
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="<c:url value="/css/themes/all-themes.css" />" rel="stylesheet" />
-		<!--[if lt IE 9]>
-		<script src="js/html5shiv.js"></script>
-		<script src="js/respond.min.js"></script>
-		<![endif]-->
-		
-		
+	
+	
+	<%-- <link rel="stylesheet" href="<c:url value="/css/bootstrap.min.css" />" />
+	<link rel="stylesheet" href="<c:url value="/css/datepicker3.css" />"/>
+	<link rel="stylesheet" href="<c:url value="/css/styles.css" />" /> --%>
+	<!--[if lt IE 9]>
+	<script src="js/html5shiv.js"></script>
+	<script src="js/respond.min.js"></script>
+	<![endif]-->
+	
+	
 		<script type="text/javascript">
 				function readCookie(cname) {
 				    var name = cname + "=";
@@ -72,48 +54,13 @@
 					return "";
 				}
 				</script>
-		
-		
-		
-		
-		<script type="text/javascript">
-		
-		
-		function editCheckbox(id,username,active) {
-			
-			swal({
-				 title: "Are you sure?",
-			        text: "You want to edit the Active/Inactive Logtype?",
-			        type: "warning",
-			        showCancelButton: true,
-			        confirmButtonColor: "#DD6B55",
-			        confirmButtonText: "Yes, edit it!",
-			        closeOnConfirm: false
-				},
-				function(isConfirm){
-					 if (!isConfirm){ 
-						 alert("Cannot complete the request");
-						 return;}
-						$.ajax({
-							url: "/LogManagement/editLogType.html?active="+active+"&username="+username+"id="+id,
-                            type: "GET",		
-                            success: function () {
-                            	
-                	            location.href = "/LogManagement/logTypeView.html?username="+username
-                            },
-							error: function () {
-							swal("Oops", "We couldn't connect to the server!!!Sorry!!!", "error");
-							}
-                        });         
-										
-				});
-		}
-		
-		</script> 
-		
-	</head>
+	
+</head>
+
+	
 <body class="theme-red">
-			<nav class="navbar">
+	
+		<nav class="navbar">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false"></a>
@@ -164,11 +111,11 @@
             </div>
             <!-- #User Info -->
             <!-- Menu -->
-            <div class="menu">
+           				<div class="menu">
                 <ul class="list">
                     <li class="header">MAIN NAVIGATION</li>
                     <li>
-                        <script>
+                         <script>
 								
 									function logGroupHomemethod(){
 										var name= readCookie('username');
@@ -274,13 +221,13 @@
                             <span>Module</span>
                         </a>
                     </li>
-                  <li>
+                    <li>
                      <a href="<c:url value="/apiList.html" />"> 
                     <i class="material-icons">view_list</i>
                     <span>APIs</span>
                     </a>
                     </li>
-                      <li class="active"> </li> 
+                       <li class="active"> </li>
                 </ul>
             </div>
             <!-- #Menu -->
@@ -290,87 +237,97 @@
         </aside>
 	 
 	 </section>
-	
-	
-	
-	<section class="content">
-	<div class="container-fluid">
-		<div class="block-header">
-                <h2>
-                   Log Type List
-                    
-                </h2>
-                <br>
-                <br>
-                 <button type="button" class="btn bg-red waves-effect" onclick="location.href='addLogType.html'">Add LogType</button>
-            </div>
-			<div class="row clearfix">
+	 
+	 <section class="content">
+        <div class="container-fluid">
+	  <!-- Advanced Validation -->
+            <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="header">
-                            
+                            <h2>ADD USER</h2>
                             
                         </div>
                         <div class="body">
-                            <div class="table-responsive">
-                                
+                            <form id="form_advanced_validation" method="POST" action="/LogManagement/index.html">
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" name="userid" class="form-control" required/>
+                                        
+                                          <script type="text/javascript">
+                                        var field = document.querySelector('[name="userid"]');
+
+                                        field.addEventListener('keypress', function ( event ) {  
+                                           var key = event.keyCode;
+                                            if (key === 32) {
+                                              event.preventDefault();
+                                            }
+                                        });
+                                        </script>
+                                        
+                                        <label class="form-label">User ID</label>
+                                    </div>
+                                    <div class="help-info">Used for Log-in</div>
+                                </div>
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" name="firstname" class="form-control" required/>
+                                        <label class="form-label">First Name</label>
+                                    </div>
+                                   </div> 
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                        <input type="text" name="lastname" class="form-control" required />
+                                        <label class="form-label">Last Name</label>
+                                    </div>
+                                    </div>
+                                    
+		                                    
 										<input type="hidden" name="username" id="username2" value="">
                                         <script type="text/javascript">
                                     document.getElementById('username2').value = readCookie("username");
     							</script>
-                                <table class="table table-bordered table-striped table-hover dataTable js-exportable">
-                                    <thead>
-                                        <tr>
-                                            <th>Main Code.</th>
-                                            <th>LogType</th>
-                                            
-                                            <th>Active</th>
-                                            
-                                        </tr>
-                                    </thead>
                                     
-                                    <tbody>
-                                 <c:if test="${not empty logtypelist}">
-		          						<c:forEach var="logtypelist" items="${logtypelist}"> 
-	                                        <tr>
-	                                            <td><c:out value="${logtypelist.mainCode}"></c:out></td>
-	                                            <td><c:out value="${logtypelist.name}"></c:out></td>
-	                                            <td>
-	                                            <div class="row clearfix js-sweetalert">
-	                                            <c:if test="${logtypelist.isActive eq 1 }">
-	                                            	<div class="switch">
-                                            			<label><input type="checkbox" id="checking" value="True" checked onchange="editCheckbox(${logtypelist.sid },document.getElementById('username2').value, document.getElementById('checking').value)"><span class="lever switch-col-green"></span></label>
-	                                        	</div>
-	                                        	</c:if>
-                                        		
-                                        		<c:if test="${logtypelist.isActive eq 0 }">
-	                                            	<div class="switch">
-                                            			<label><input type="checkbox" id="checking2" value="False" onchange="editCheckbox(${logtypelist.sid },document.getElementById('username2').value, document.getElementById('checking2').value)"><span class="lever switch-col-green"></span></label>
-	                                        	</div>
-	                                        	</c:if> 
-	                                        	</div>                          
-	                                            </td>
-	                                            
-	                                           
-	                                        </tr>
-                                       </c:forEach>
-                                    </c:if>
+                                    
+                                <div class="form-group form-float">
+                                    <div class="form-line">
+                                    	<input type="hidden" name="active">
+                                            <input type="checkbox" name="active" class="filled-in" id="ig_checkbox" checked/>
+                                            <label for="ig_checkbox">Active</label>
+                                       
+                                    </div>
                                         
-                                    </tbody>
-                                </table>
-                            </div>
+                                    </div>
+                             
+                              
+                           <div class="body">
+	                            
+	                                 <button class="btn btn-primary waves-effect" type="submit" onclick="location.href='index.html'">SUBMIT</button>
+	                                 <button class="btn btn-primary waves-effect" data-type="cancel" onclick="myFunction()" value="Reset">CANCEL</button> 
+	                            	<script>
+										function myFunction() {
+    										document.getElementById("form_advanced_validation").reset();
+											}
+											</script>
+                           </div>
+                                 
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
-			</div><!--/.row-->
-		
+	 
+	 
+	 
+	 </div>
+	 </section>
 	
-	</section>
 	
+	
+</body>
 
-	
-	<script src="<c:url value="/plugins/jquery/jquery.min.js" />"></script>
+
+<script src="<c:url value="/plugins/jquery/jquery.min.js" />"></script>
 
     <!-- Bootstrap Core Js -->
     <script src="<c:url value="/plugins/bootstrap/js/bootstrap.js" />"></script>
@@ -383,6 +340,12 @@
 
     <!-- Waves Effect Plugin Js -->
     <script src="<c:url value="/plugins/node-waves/waves.js" />"></script>
+    
+     <!-- SweetAlert Plugin Js -->
+    <script src="<c:url value="/plugins/sweetalert/sweetalert.min.js" />"></script>
+    <!-- Bootstrap Notify Plugin Js -->
+    <script src="<c:url value="/plugins/bootstrap-notify/bootstrap-notify.js" />"></script>
+    
 
     <!-- Jquery DataTable Plugin Js -->
     <script src="<c:url value="/plugins/jquery-datatable/jquery.dataTables.js" />"></script>
@@ -398,12 +361,7 @@
     <!-- Custom Js -->
     <script src="<c:url value="/js/admin.js" />"></script>
     <script src="<c:url value="/js/pages/tables/jquery-datatable.js" />"></script>
-
+	 <script src="<c:url value="/js/pages/ui/dialogs.js" />"></script>
     <!-- Demo Js -->
     <script src="<c:url value="/js/demo.js" />"></script>
-	
-	
-	
-	
-</body>
 </html>
