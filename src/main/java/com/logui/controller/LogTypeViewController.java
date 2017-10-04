@@ -292,11 +292,11 @@ private String edit(String Username, String active, int sid) throws Exception {
 	}
 	if(active.equals("True"))
 	{
-				flag= 1;
+				flag= 0;
 	}
 else
 {
-	flag=0;
+	flag=1;
 }
 	
 	String url = "http://54.153.82.170:4000/atest/api/logging_code_dict/";

@@ -339,13 +339,13 @@
 	                                            <div class="row clearfix js-sweetalert">
 	                                            <c:if test="${logtypelist.isActive eq 1 }">
 	                                            	<div class="switch">
-                                            			<label><input type="checkbox" id="checking" value="True" checked onchange="editCheckbox(${logtypelist.sid },document.getElementById('username2').value, document.getElementById('checking').value)"><span class="lever switch-col-green"></span></label>
+                                            			<label><input type="checkbox" id="checking" value="True" checked onchange="editCheckbox('${logtypelist.sid}',document.getElementById('username2').value, document.getElementById('checking').value)"><span class="lever switch-col-green"></span></label>
 	                                        	</div>
 	                                        	</c:if>
                                         		
                                         		<c:if test="${logtypelist.isActive eq 0 }">
 	                                            	<div class="switch">
-                                            			<label><input type="checkbox" id="checking2" value="False" onchange="editCheckbox(${logtypelist.sid },document.getElementById('username2').value, document.getElementById('checking2').value)"><span class="lever switch-col-green"></span></label>
+                                            			<label><input type="checkbox" id="checking2" value="False" onchange="editCheckbox('${logtypelist.sid}',document.getElementById('username2').value, document.getElementById('checking2').value)"><span class="lever switch-col-green"></span></label>
 	                                        	</div>
 	                                        	</c:if> 
 	                                        	</div>                          
