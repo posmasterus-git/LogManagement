@@ -43,7 +43,15 @@
 
     <!-- Custom Css -->
     <link href="<c:url value="/css/style.css" />" rel="stylesheet">
-
+	
+	
+	<!-- SweetAlert CSS -->
+	 <link href="<c:url value="/plugins/sweetalert/sweetalert.css" />" rel="stylesheet" type="text/css">
+	 
+     <script src="<c:url value="/plugins/sweetalert/sweetalert.min.js" />"></script>
+	 <script src="<c:url value="/plugins/sweetalert/sweetalert-dev.js" />"></script>
+	
+	
     <!-- AdminBSB Themes. You can choose a theme from css/themes instead of get all themes -->
     <link href="<c:url value="/css/themes/all-themes.css" />" rel="stylesheet" />
 		<!--[if lt IE 9]>
@@ -64,6 +72,44 @@
 					return "";
 				}
 				</script>
+				
+				
+				<script type="text/javascript">
+		
+		
+		function editCheckbox(id,username,active) {
+			
+			swal({
+				 title: "Are you sure?",
+			        text: "You want to edit the Active/Inactive Module?",
+			        type: "warning",
+			        showCancelButton: true,
+			        confirmButtonColor: "#DD6B55",
+			        confirmButtonText: "Yes, edit it!",
+			        closeOnConfirm: false
+				},
+				function(isConfirm){
+					 if (!isConfirm){ 
+						 alert("Cannot complete the request");
+						 return;}
+						$.ajax({
+							
+							url: "/LogManagement/editModule.html?active="+active+"&username="+username+"&id="+id,
+                            type: "GET",		
+                            success: function () {
+                            	
+                	            location.href = "/LogManagement/moduleView.html?username="+username
+                            },
+							error: function () {
+								swal("Oops", "We couldn't connect to the server!!!Sorry!!!", "error");
+							}
+                        });         
+										
+				});
+		}
+		
+		</script> 
+		
 		
 	</head>
 <body class="theme-red">
@@ -276,7 +322,7 @@
                                 <table class="table table-bordered table-striped table-hover dataTable js-exportable">
                                     <thead>
                                          <tr>
-                                            <th>Main Code.</th>
+                                            <th>Sr. No.</th>
                                             <th>Module</th>
                                             <th>Action</th>
                                         </tr>
@@ -284,22 +330,22 @@
                                     
                                     <tbody>
                                     <c:if test="${not empty listofmodule}">
-		          						<c:forEach var="listofmodule" items="${listofmodule}">
+		          						<c:forEach var="listofmodule" items="${listofmodule}" varStatus="i">
 	                                        <tr>
-	                                            <td><c:out value="${listofmodule.mainCode}"></c:out></td>
+	                                            <td><c:out value="${i.count}"></c:out></td>
 	                                            <td><c:out value="${listofmodule.name}"></c:out></td>
 	                                           
 	                                            <td>
 	                                            
 													<c:if test="${listofmodule.isActive eq 1 }">
 	                                            	<div class="switch">
-                                            			<label><input type="checkbox" value="True" checked disabled><span class="lever switch-col-green"></span></label>
+                                            			<label><input type="checkbox" value="True" checked id="checking" onchange="editCheckbox('${listofmodule.sid}',document.getElementById('username2').value, document.getElementById('checking').value)"><span class="lever switch-col-green"></span></label>
 	                                        	</div>
 	                                        	</c:if>
                                         		
                                         		<c:if test="${listofmodule.isActive eq 0 }">
 	                                            	<div class="switch">
-                                            			<label><input type="checkbox" disabled><span class="lever switch-col-green"></span></label>
+                                            			<label><input type="checkbox" value="False" id="checking2" onchange="editCheckbox('${listofmodule.sid}',document.getElementById('username2').value, document.getElementById('checking2').value)"><span class="lever switch-col-green"></span></label>
 	                                        	</div>
 	                                        	</c:if>  
 												                          

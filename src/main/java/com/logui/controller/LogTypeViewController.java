@@ -79,9 +79,9 @@ public class LogTypeViewController {
 				if(((String)jObj.get("main_code")).equals("001"))
 				{
 				
-					//loggrouplistobj.setSid(((Long) jObj.get("sid")).intValue());
+					loggrouplistobj.setSid(((Long) jObj.get("sid")).intValue());
 					loggrouplistobj.setMasterSid(((Long) jObj.get("master_sid")).intValue());
-				//	loggrouplistobj.setValue(((Long) jObj.get("value")).intValue());
+					loggrouplistobj.setValue(((Long) jObj.get("value")).intValue());
 					loggrouplistobj.setMainCode((String)jObj.get("main_code"));
 					loggrouplistobj.setSubCode((String)jObj.get("sub_code"));
 					loggrouplistobj.setName((String)jObj.get("name"));
@@ -165,7 +165,7 @@ public List<LogTypeModel> listlogroupInfo(int sid){
 				if(((String)jObj.get("main_code")).equals("001"))
 				{
 				
-					//loggrouplistobj.setSid(((Long) jObj.get("sid")).intValue());
+					loggrouplistobj.setSid(((Long) jObj.get("sid")).intValue());
 					loggrouplistobj.setMasterSid(((Long) jObj.get("master_sid")).intValue());
 					loggrouplistobj.setValue(((Long) jObj.get("value")).intValue());
 					loggrouplistobj.setMainCode((String)jObj.get("main_code"));
@@ -257,7 +257,7 @@ public List<LogTypeModel> listlogroupInfo(int sid){
 }
 
 	
-private String edit(String Username, String active, int sid) throws Exception {
+public String edit(String Username, String active, int sid) throws Exception {
 		
 		String subcode=null, comment = null, desc = null, updatedby=null, maincode=null, module=null, name=null, ref01=null, ref02=null, usedcode=null;
 		int seqorder=-1;
@@ -281,7 +281,7 @@ private String edit(String Username, String active, int sid) throws Exception {
 		ref01 = ulist.getRef01();
 		ref02 = ulist.getRef02();
 		seqorder = ulist.getSeqOrder();
-		sid = ulist.getSid();
+		//sid = ulist.getSid();
 		usedcode = ulist.getUsedCode();
 		value = ulist.getValue();
 		

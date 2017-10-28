@@ -95,14 +95,15 @@
 						 alert("Cannot complete the request");
 						 return;}
 						$.ajax({
-							url: "/LogManagement/editLogType.html?active="+active+"&username="+username+"id="+id,
+							
+							url: "/LogManagement/editLogType.html?active="+active+"&username="+username+"&id="+id,
                             type: "GET",		
                             success: function () {
                             	
                 	            location.href = "/LogManagement/logTypeView.html?username="+username
                             },
 							error: function () {
-							swal("Oops", "We couldn't connect to the server!!!Sorry!!!", "error");
+								swal("Oops", "We couldn't connect to the server!!!Sorry!!!", "error");
 							}
                         });         
 										
@@ -321,7 +322,7 @@
                                 <table class="table table-bordered table-striped table-hover dataTable js-exportable">
                                     <thead>
                                         <tr>
-                                            <th>Main Code.</th>
+                                            <th>Sr. No.</th>
                                             <th>LogType</th>
                                             
                                             <th>Active</th>
@@ -331,10 +332,11 @@
                                     
                                     <tbody>
                                  <c:if test="${not empty logtypelist}">
-		          						<c:forEach var="logtypelist" items="${logtypelist}"> 
+		          						<c:forEach var="logtypelist" items="${logtypelist}" varStatus="i"> 
 	                                        <tr>
-	                                            <td><c:out value="${logtypelist.mainCode}"></c:out></td>
+	                                            <td><c:out value="${i.count}"></c:out></td>
 	                                            <td><c:out value="${logtypelist.name}"></c:out></td>
+	                                            
 	                                            <td>
 	                                            <div class="row clearfix js-sweetalert">
 	                                            <c:if test="${logtypelist.isActive eq 1 }">
